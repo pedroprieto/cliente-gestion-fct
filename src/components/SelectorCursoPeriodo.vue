@@ -32,10 +32,12 @@ export default {
         }
     },
     mounted() {
+        const FCT = gestionFCTStore();
+        this.curso = FCT.curso;
+        this.periodo = FCT.periodo;
         this.$watch(
             () => this.$route.query.curso,
             async (newCurso) => {
-                const FCT = gestionFCTStore();
                 this.curso = newCurso;
                 FCT.updateCurso(this.curso);
             }
@@ -43,7 +45,6 @@ export default {
         this.$watch(
             () => this.$route.query.periodo,
             async (newPeriodo) => {
-                const FCT = gestionFCTStore();
                 const cursoperiodo = cursoPeriodoStore();
                 console.log(newPeriodo);
                 this.periodo = cursoperiodo.getPeriodoFromCode(newPeriodo);
