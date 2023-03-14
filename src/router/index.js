@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import ListFCTView from '../views/ListFCTView.vue'
 import DocumentacionView from '../views/DocumentacionView.vue'
 import FM34View from '../views/FM34View.vue'
+import LoginView from '../views/LoginView.vue'
 import ImportarView from '../views/ImportarView.vue'
 
 const router = createRouter({
@@ -42,6 +43,15 @@ const router = createRouter({
         },
       component: FM34View,
         props: route => ({ curso: route.query.curso, periodo: route.query.periodo })
+    },
+    {
+        path: '/login',
+      name: 'login',
+        meta: {
+            prompt: "Login",
+        },
+      component: LoginView,
+        props: route => ({  })
     },
   ]
 })

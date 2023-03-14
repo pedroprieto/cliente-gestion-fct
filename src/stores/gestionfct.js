@@ -10,6 +10,8 @@ import { cursoPeriodoStore } from '@/stores/cursoperiodo'
 export const gestionFCTStore = defineStore('gestionfct', {
     state: () => {
         return {
+            usuario: '',
+            password: '',
             curso: cursoPeriodoStore().getCursoActual(),
             periodo: cursoPeriodoStore().getPeriodoActual(),
             fm34s: [],
@@ -38,8 +40,15 @@ export const gestionFCTStore = defineStore('gestionfct', {
         }
     },
     actions: {
+        checkLogin: function() {
+            return sessionStorage.getItem("user");
+        },
         updateCurso: function (curso) {
             this.curso = curso;
+            // this.curso = cursoPeriodoStore().getcursoslist().includes(curso) ? curso : cursoPeriodoStore().getCursoActual();
+            // console.log(this.curso);
+            // TODO: actualizar ruta a válida
+            // this.$router.push({path: this.$route.path, query: {curso: this.curso, periodo: this.periodo.value}})
         },
         updatePeriodo: function (periodo) {
             this.periodo = periodo;

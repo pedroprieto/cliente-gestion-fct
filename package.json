@@ -11,6 +11,8 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@jamescoyle/vue-icon": "^0.1.2",
+    "@mdi/js": "^7.1.96",
     "docxtemplater": "^3.34.3",
     "file-saver": "^2.0.5",
     "pinia": "^2.0.32",

@@ -38,8 +38,11 @@ export default {
         this.$watch(
             () => this.$route.query.curso,
             async (newCurso) => {
-                this.curso = newCurso;
+                this.curso = cursoPeriodoStore().getcursoslist().includes(curso) ? newCurso : cursoPeriodoStore().getCursoActual();
+                // this.curso = newCurso;
                 FCT.updateCurso(this.curso);
+                // TODO: redirect a válida. Igual con before hook de router
+                // this.$router.push({path: this.$route.path, query: {curso: this.curso, periodo: this.periodo.value}})
             }
         );
         this.$watch(
