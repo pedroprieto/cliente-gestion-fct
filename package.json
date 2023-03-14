@@ -11,8 +11,11 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "docxtemplater": "^3.34.3",
+    "file-saver": "^2.0.5",
     "pinia": "^2.0.32",
-    "uuidv4": "^6.2.13",
+    "pizzip": "^3.1.4",
+    "uuid": "^9.0.0",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6"
   },
