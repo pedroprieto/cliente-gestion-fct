@@ -1,0 +1,39 @@
+<template>
+  <article class="overlay">
+    Loading!!!
+  </article>
+</template>
+
+<script>
+import { gestionFCTStore } from '@/stores/gestionfct'
+
+export default {
+    created() {
+        setTimeout(() => {
+            this.FCT.resetMensaje();
+            }, this.tiempo_cierre);
+    },
+    data() {
+        return {
+            tiempo_cierre: 3000,
+            FCT: gestionFCTStore(), 
+        }
+    },
+    methods: {
+        cerrarMensaje() {
+            this.FCT.resetMensaje();
+        }
+    }
+}
+</script>
+
+<style scoped>
+.overlay{
+z-index: 100;
+position: fixed;
+top: 0;
+width: 100vw;
+height: 100vh;
+background-color: white;
+}
+</style>

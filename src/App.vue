@@ -3,6 +3,8 @@
   import { gestionFCTStore } from '@/stores/gestionfct'
   import { useRouter } from 'vue-router'
   import { onBeforeMount } from 'vue'
+  import CompMensaje from './components/CompMensaje.vue'
+  import LoadOverlay from './components/LoadOverlay.vue'
 
   const router = useRouter();
   const FCT = gestionFCTStore();
@@ -20,7 +22,9 @@
 
 <template>
 
-  <RouterView/>
+<RouterView/>
+<CompMensaje v-if="FCT.mostrarMensaje"/>
+<LoadOverlay v-if="FCT.loading"/>
 </template>
 
 <style scoped></style>

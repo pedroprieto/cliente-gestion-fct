@@ -24,7 +24,6 @@ export const cursoPeriodoStore = defineStore('cursoperiodo', {
             return cps;
         },
         getperiodoslist: function () {
-            //return [1,2];
             // Cambian a 5, 6 y -1 (todos)
             var ps = [];
 
@@ -36,13 +35,8 @@ export const cursoPeriodoStore = defineStore('cursoperiodo', {
             c2.value = "6";
             c2.text = "Extraordinario";
 
-            var todos = {};
-            todos.value = "-1";
-            todos.text = "Todos";
-
             ps.push(c1);
             ps.push(c2);
-            ps.push(todos);
 
             return ps;
 

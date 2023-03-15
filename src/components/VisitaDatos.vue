@@ -1,7 +1,7 @@
 <template>
   <p>Tipo: {{ visita.tipo }}</p>
   <p>Distancia: {{ visita.distancia }}</p>
-  <p>Fecha: {{ visita.fecha.toLocaleDateString('es') }}</p>
+<p>Fecha: {{ new Date(visita.fecha).toLocaleDateString('es') }}</p>
   <p>Hora de salida: {{ visita.hora_salida }}</p>
   <p>Hora de llegada: {{ visita.hora_regreso }}</p>
   <p>Localidad: {{ visita.localidad }}</p>

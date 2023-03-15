@@ -8,8 +8,11 @@
   </p>
   <div v-if="!fct.selectedTab">
     <p class="panel-block">
-      Inicio: {{ new Date(fct.fecha_inicio).toLocaleDateString('es') }} - Fin:
-      {{ new Date(fct.fecha_fin).toLocaleDateString('es') }}
+      <button @click="borrarFCT(fct)" type="button" class="button is-fullwidth is-danger is-outlined">Borrar</button>
+    </p>
+    <p class="panel-block">
+      Inicio: {{ fct.fecha_inicio }} - Fin:
+      {{ fct.fecha_fin }}
     </p>
     <p class="panel-block">
       {{ fct.instructor }}
@@ -102,15 +105,32 @@ export default {
         },
         updateCreateVisit: async function (fct, visitData, editing) {
             if (!editing) {
+                console.log(visitData);
                 await this.FCT.addVisit(visitData, fct)
             } else {
-                await this.FCT.updateVisit(visitData)
+                await this.FCT.updateVisit(visitData, fct)
             }
+            this.FCT.enviarMensaje("Éxito", false);
             fct.modifyVisit = false
         },
         borrarVisita: async function (fct, visita) {
             if (confirm("¿Desea eliminar la visita?")) {
-                await this.FCT.deleteVisit(fct, visita)
+                this.FCT.deleteVisit(fct, visita).then(respuesta => {
+                    this.FCT.enviarMensaje("Visita borrada con éxito", false);
+                }).catch(error => {
+                    console.log("error");
+                    this.FCT.enviarMensaje(error, true);
+                    });
+            }
+        },
+        borrarFCT: async function (fct) {
+            if (confirm("¿Desea eliminar la FCT? Se borrarán también las visitas asociadas.")) {
+                this.FCT.deleteFCT(fct).then(respuesta => {
+                    this.FCT.enviarMensaje("FCT borrada con éxito", false);
+                }).catch(error => {
+                    console.log("error");
+                    this.FCT.enviarMensaje(error, true);
+                    });
             }
         },
         generarCertificado: function (tipo, fct) {

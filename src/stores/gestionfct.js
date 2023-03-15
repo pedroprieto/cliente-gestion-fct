@@ -10,6 +10,10 @@ import { cursoPeriodoStore } from '@/stores/cursoperiodo'
 export const gestionFCTStore = defineStore('gestionfct', {
     state: () => {
         return {
+            loading: false,
+            mensaje: "",
+            error: false,
+            mostrarMensaje: false,
             usuario: '',
             password: '',
             curso: "",
@@ -40,6 +44,30 @@ export const gestionFCTStore = defineStore('gestionfct', {
         }
     },
     actions: {
+        request(url, method, body) {
+            let headers = new Headers();
+            headers.set('Authorization', 'Basic ' + btoa(this.usuario + ":" + this.password));
+            headers.set('Content-Type', 'application/json');
+            let params = {
+                method: method,
+                mode: 'cors',
+                headers
+            };
+            console.log(body);
+            if (body)
+                params.body = JSON.stringify(body);
+            return fetch(url, params);
+        },
+        resetMensaje() {
+            this.mostrarMensaje = false;
+            this.error = false;
+            this.mensaje = "";
+        },
+        enviarMensaje(texto, error) {
+            this.mostrarMensaje = true;
+            this.error = error;
+            this.mensaje = texto;
+        },
         loadCredentials: function() {
             this.usuario = sessionStorage.getItem("user");
             this.password = sessionStorage.getItem("password");
@@ -56,37 +84,33 @@ export const gestionFCTStore = defineStore('gestionfct', {
         loadFCTs: async function () {
             console.log("loading FCTs");
             let url = `http://localhost:3000/api/users/${this.usuario}/fcts?curso=${this.curso}&periodo=${this.periodo.value}`;
-                let headers = new Headers();
-                headers.set('Authorization', 'Basic ' + btoa(this.usuario + ":" + this.password));
-                headers.set('Content-Type', 'application/json');
                 
-                return fetch(url, {
-                    method: 'GET',
-                    mode: 'cors',
-                    headers
-                }).then(response => {
+            return this.request(url, 'GET')
+                .then(response => {
                     if (response.ok) {
                         return response.json();
                     } else {
                         throw new Error("Ha ocurrido un problema al obtener los datos");
                     }
                 }).then(datos => {
-                    let res = datos.collection.items.map(item => {
-                        return item.data.reduce((acc, d) => {
-                            acc[d.name] = d.value;
-                            return acc;
-                        }, {});
-                        
-                    })
-                    this.fcts = res;
+                    this.visits = [];
+                    this.fcts = [];
+                    console.log(datos);
+                    datos.map(item => {
+                        if (item.type == 'FCT') {
+                            this.fcts.push(item);
+                        } else {
+                            this.visits.push(item);
+                        }
+                    });
+                    console.log(this.visits);
+                    for (let fct of this.fcts) {
+                        this.loadVisitsToFCT(fct);
+                    }
                 }).catch(error => {
-                    
+                    console.log("error");
+                    this.enviarMensaje(error, true);
                 });
-            // AJAX para obtener visitas
-            for (let fct of this.fcts) {
-                this.loadVisitsToFCT(fct);
-            }
-            return this.fcts
         },
         loadVisitsToFCT: function (fct) {
             fct.visitas = this.getVisitsByFCTId(fct.id)
@@ -113,26 +137,66 @@ export const gestionFCTStore = defineStore('gestionfct', {
                 return fct.empresa == empresa
             })
         },
-        deleteFCTWithVisits: async function (fctId) {
-            this.fcts = this.fcts.filter((f) => f.id != fctId)
-            this.visits = this.visits.filter((v) => v.fctId != fctId)
+        deleteVisit: function (fct, visit) {
+            let url = `http://localhost:3000/api/users/${this.usuario}/fcts/items/${fct.id}/visits/item/${visit.id}`;
+            this.loading = true;
+            return this.request(url, 'DELETE')
+                .then(response => {
+                    this.loading = false;
+                    if (response.ok) {
+                        this.visits = this.visits.filter((v) => v.id != visit.id)
+                        this.loadVisitsToFCT(fct);
+                    } else {
+                        throw new Error("No se ha podido borrar la visita");
+                    }
+                });
         },
-        deleteVisit: async function (fct, visit) {
-            this.visits = this.visits.filter((v) => v.id != visit.id)
-            this.loadVisitsToFCT(fct);
+        deleteFCT: function (fct) {
+            let url = `http://localhost:3000/api/users/${this.usuario}/fcts/items/${fct.id}`;
+            let headers = new Headers();
+                headers.set('Authorization', 'Basic ' + btoa(this.usuario + ":" + this.password));
+                headers.set('Content-Type', 'application/json');
+            this.loading = true;
+            return this.request(url, 'DELETE')
+                .then(response => {
+                    this.loading = false;
+                    if (response.ok) {
+                        this.fcts = this.fcts.filter(f => f.id != fct.id);
+                        this.visits = this.visits.filter((v) => v.fctId != fct.id)
+                    } else {
+                        throw new Error("No se ha podido borrar la FCT");
+                    }
+                });
         },
-        addVisit: async function (visitData, fct) {
-            visitData.fctId = fct.id;
-            visitData.empresa = fct.empresa;
-            visitData.fecha = new Date(visitData.fecha)
-            visitData.id == uuidv4();
-            this.visits.push(visitData);
-            this.loadVisitsToFCT(fct);
+        // TODO: hacer que servidor devuelva visita con datos correctos tras update y add
+        addVisit: function (visitData, fct) {
+            let url = `http://localhost:3000/api/users/${this.usuario}/fcts/items/${fct.id}/visits`;
+            this.loading = true;
+            return this.request(url, 'POST', visitData)
+                .then(response => {
+                    this.loading = false;
+                    if (response.ok) {
+                        this.visits.push(visitData);
+                        this.loadVisitsToFCT(fct);
+                    } else {
+                        throw new Error("No se ha podido crear la visita");
+                    }
+                });
         },
-        updateVisit: async function (visitData) {
-            let foundVisit = this.visits.find((v) => v.id == visitData.id)
-            foundVisit = Object.assign(foundVisit, visitData)
-            this.loadVisitsToFCT(fct);
+        updateVisit: function (visitData, fct) {
+            let url = `http://localhost:3000/api/users/${this.usuario}/fcts/items/${fct.id}/visits/item/${visitData.id}`;
+            this.loading = true;
+            return this.request(url, 'PUT', visitData)
+                .then(response => {
+                    this.loading = false;
+                    if (response.ok) {
+                        let foundVisit = this.visits.find((v) => v.id == visitData.id);
+                        foundVisit = Object.assign(foundVisit, visitData)
+                        this.loadVisitsToFCT(fct);
+                    } else {
+                        throw new Error("No se ha podido actualizar la visita");
+                    }
+                });
         },
         generarCertificados: function (tipo, fct) {
             // fct.visita_ini = fct.visitas.find(v => v.tipo == 'inicial');
