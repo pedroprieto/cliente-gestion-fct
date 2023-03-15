@@ -31,40 +31,33 @@ export default {
             periodo: {}
         }
     },
-    mounted() {
+    async mounted() {
         const FCT = gestionFCTStore();
-        this.curso = FCT.curso;
-        this.periodo = FCT.periodo;
-        this.$watch(
-            () => this.$route.query.curso,
-            async (newCurso) => {
-                this.curso = cursoPeriodoStore().getcursoslist().includes(curso) ? newCurso : cursoPeriodoStore().getCursoActual();
-                // this.curso = newCurso;
-                FCT.updateCurso(this.curso);
-                // TODO: redirect a válida. Igual con before hook de router
-                // this.$router.push({path: this.$route.path, query: {curso: this.curso, periodo: this.periodo.value}})
-            }
-        );
-        this.$watch(
-            () => this.$route.query.periodo,
-            async (newPeriodo) => {
-                const cursoperiodo = cursoPeriodoStore();
-                console.log(newPeriodo);
-                this.periodo = cursoperiodo.getPeriodoFromCode(newPeriodo);
-                FCT.updatePeriodo(this.periodo);
-            }
-        );
         const cursoperiodo = cursoPeriodoStore();
+
         this.cursos = cursoperiodo.getcursoslist();
         this.periodos = cursoperiodo.getperiodoslist();
-    },
-    methods: {
-        navegar: function() {
-            const FCT = gestionFCTStore();
+
+        if ((!FCT.curso) || (!FCT.periodo)) {
+            // Si no está cargado curso o período en el estado
+            // Curso y período actual: a partir de query o curso por defecto
+            this.curso = cursoperiodo.getCurso(this.$route.query.curso);
+            this.periodo = cursoperiodo.getPeriodoFromCode(this.$route.query.periodo);
             FCT.updateCurso(this.curso);
             FCT.updatePeriodo(this.periodo);
+            await FCT.loadFCTs();
+        } else {
+            this.curso = FCT.curso;
+            this.periodo = FCT.periodo;
+        }
+    },
+    methods: {
+        navegar: async function() {
+            const FCT = gestionFCTStore();
             this.$router.push({path: this.$route.path, query: {curso: this.curso, periodo: this.periodo.value}})
-
+            FCT.updateCurso(this.curso);
+            FCT.updatePeriodo(this.periodo);
+            await FCT.loadFCTs();
         }
     }
 }

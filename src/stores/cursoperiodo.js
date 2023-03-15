@@ -9,7 +9,7 @@ export const cursoPeriodoStore = defineStore('cursoperiodo', {
             var mes_actual = now.getMonth() + 1;
 
             var cps = [];
-            
+
             for (let i = curso_inicial; i <= curso_final; i++) {
                 let valor = (i - 1) + '-' + (i);
                 cps.push(valor)
@@ -64,18 +64,24 @@ export const cursoPeriodoStore = defineStore('cursoperiodo', {
             var now = new Date();
             var mes_actual = now.getMonth() + 1;
             let value;
-            
+
             if (mes_actual >= 7) {
                 value = 6;
             } else {
                 value = 5;
-            return this.getperiodoslist().find(p => p.value == value);
+                return this.getperiodoslist().find(p => p.value == value);
             }
         },
         getPeriodoFromCode: function (codigo) {
             return this.getperiodoslist().find(function (el) {
                 return el.value == codigo;
-            });
+            }) || this.getPeriodoActual();
+
+        },
+        getCurso: function (curso) {
+            return this.getcursoslist().find(function (el) {
+                return el == curso;
+            }) || this.getCursoActual();
 
         }
     }

@@ -45,16 +45,15 @@
   import { mdiLock } from '@mdi/js'
   import { gestionFCTStore } from '@/stores/gestionfct'
   import { useRouter } from 'vue-router'
-
+  
   const router = useRouter();
   const FCT = gestionFCTStore();
 
   function login() {
   sessionStorage.setItem("user", FCT.usuario);
-  sessionStorage.setItem("user", FCT.password);
+  sessionStorage.setItem("password", FCT.password);
   
   router.push({path: '/'})
-
   }
   
 </script>

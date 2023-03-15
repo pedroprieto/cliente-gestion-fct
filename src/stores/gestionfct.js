@@ -12,8 +12,8 @@ export const gestionFCTStore = defineStore('gestionfct', {
         return {
             usuario: '',
             password: '',
-            curso: cursoPeriodoStore().getCursoActual(),
-            periodo: cursoPeriodoStore().getPeriodoActual(),
+            curso: "",
+            periodo: "",
             fm34s: [],
             fcts: [
                 {
@@ -40,21 +40,49 @@ export const gestionFCTStore = defineStore('gestionfct', {
         }
     },
     actions: {
+        loadCredentials: function() {
+            this.usuario = sessionStorage.getItem("user");
+            this.password = sessionStorage.getItem("password");
+        },
         checkLogin: function() {
-            return sessionStorage.getItem("user");
+            return this.usuario;
         },
         updateCurso: function (curso) {
             this.curso = curso;
-            // this.curso = cursoPeriodoStore().getcursoslist().includes(curso) ? curso : cursoPeriodoStore().getCursoActual();
-            // console.log(this.curso);
-            // TODO: actualizar ruta a válida
-            // this.$router.push({path: this.$route.path, query: {curso: this.curso, periodo: this.periodo.value}})
         },
         updatePeriodo: function (periodo) {
             this.periodo = periodo;
         },
-        loadFCTs: async function (url) {
-            // TODO ajax
+        loadFCTs: async function () {
+            console.log("loading FCTs");
+            let url = `http://localhost:3000/api/users/${this.usuario}/fcts?curso=${this.curso}&periodo=${this.periodo.value}`;
+                let headers = new Headers();
+                headers.set('Authorization', 'Basic ' + btoa(this.usuario + ":" + this.password));
+                headers.set('Content-Type', 'application/json');
+                
+                return fetch(url, {
+                    method: 'GET',
+                    mode: 'cors',
+                    headers
+                }).then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error("Ha ocurrido un problema al obtener los datos");
+                    }
+                }).then(datos => {
+                    let res = datos.collection.items.map(item => {
+                        return item.data.reduce((acc, d) => {
+                            acc[d.name] = d.value;
+                            return acc;
+                        }, {});
+                        
+                    })
+                    this.fcts = res;
+                }).catch(error => {
+                    
+                });
+            // AJAX para obtener visitas
             for (let fct of this.fcts) {
                 this.loadVisitsToFCT(fct);
             }
