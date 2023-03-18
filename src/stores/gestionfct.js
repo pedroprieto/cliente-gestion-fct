@@ -45,6 +45,7 @@ export const gestionFCTStore = defineStore('gestionfct', {
     },
     actions: {
         request(url, method, body) {
+            let fullUrl = `http://localhost:3000${url}`;
             let headers = new Headers();
             headers.set('Authorization', 'Basic ' + btoa(this.usuario + ":" + this.password));
             headers.set('Content-Type', 'application/json');
@@ -56,7 +57,7 @@ export const gestionFCTStore = defineStore('gestionfct', {
             console.log(body);
             if (body)
                 params.body = JSON.stringify(body);
-            return fetch(url, params);
+            return fetch(fullUrl, params);
         },
         resetMensaje() {
             this.mostrarMensaje = false;
@@ -83,7 +84,7 @@ export const gestionFCTStore = defineStore('gestionfct', {
         },
         loadFCTs: async function () {
             console.log("loading FCTs");
-            let url = `http://localhost:3000/api/users/${this.usuario}/fcts?curso=${this.curso}&periodo=${this.periodo.value}`;
+            let url = `/api/users/${this.usuario}/fcts?curso=${this.curso}&periodo=${this.periodo.value}`;
                 
             return this.request(url, 'GET')
                 .then(response => {
@@ -138,7 +139,7 @@ export const gestionFCTStore = defineStore('gestionfct', {
             })
         },
         deleteVisit: function (fct, visit) {
-            let url = `http://localhost:3000/api/users/${this.usuario}/fcts/items/${fct.id}/visits/item/${visit.id}`;
+            let url = visit.href;
             this.loading = true;
             return this.request(url, 'DELETE')
                 .then(response => {
@@ -152,7 +153,7 @@ export const gestionFCTStore = defineStore('gestionfct', {
                 });
         },
         deleteFCT: function (fct) {
-            let url = `http://localhost:3000/api/users/${this.usuario}/fcts/items/${fct.id}`;
+            let url = fct.href;
             let headers = new Headers();
                 headers.set('Authorization', 'Basic ' + btoa(this.usuario + ":" + this.password));
                 headers.set('Content-Type', 'application/json');
@@ -170,7 +171,7 @@ export const gestionFCTStore = defineStore('gestionfct', {
         },
         // TODO: hacer que servidor devuelva visita con datos correctos tras update y add
         addVisit: function (visitData, fct) {
-            let url = `http://localhost:3000/api/users/${this.usuario}/fcts/items/${fct.id}/visits`;
+            let url = fct.hrefVisit;
             this.loading = true;
             return this.request(url, 'POST', visitData)
                 .then(response => {
@@ -184,7 +185,7 @@ export const gestionFCTStore = defineStore('gestionfct', {
                 });
         },
         updateVisit: function (visitData, fct) {
-            let url = `http://localhost:3000/api/users/${this.usuario}/fcts/items/${fct.id}/visits/item/${visitData.id}`;
+            let url = visitData.href;
             this.loading = true;
             return this.request(url, 'PUT', visitData)
                 .then(response => {
