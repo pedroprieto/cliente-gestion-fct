@@ -2,7 +2,7 @@
 <div>
   <label for="curso" class="label">Curso</label>
 </div>
-<div class="navbar-item select">
+<div class="navbar-item select is-primary">
   <select v-model="curso" id="curso" @change="navegar()">
     <option v-for="curso of cursos" :value="curso" :key="curso">{{curso}}</option>
   </select>
@@ -11,7 +11,7 @@
 <div>
   <label for="periodo" class="label">Período</label>
 </div>
-<div class="navbar-item select">
+<div class="navbar-item select is-primary">
   <select v-model="periodo.value" id="periodo" @change="navegar()">
     <option v-for="periodo of periodos" :value="periodo.value" :key="periodo">{{periodo.text}}</option>
   </select>

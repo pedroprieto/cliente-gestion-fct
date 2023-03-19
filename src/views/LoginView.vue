@@ -14,7 +14,6 @@
               <label for="usuario" class="label">Usuario</label>
               <div class="control has-icons-left">
                 <input v-model="FCT.usuario" type="text" placeholder="Usuario" class="input" required id="usuario">
-
                 <svg-icon class="icon is-small is-left" type="mdi" :path="mdiAccount"></svg-icon>
               </div>
             </div>
@@ -29,6 +28,13 @@
               <button type="submit" class="button is-success is-fullwidth">
                 Entrar
               </button>
+            </div>
+            <div v-if = "FCT.loginError" class="field">
+              <article class="message is-danger">
+                <div class="message-body">
+                  Error en la autenticación.
+                </div>
+              </article>
             </div>
           </form>
         </div>
@@ -52,6 +58,7 @@
   function login() {
   sessionStorage.setItem("user", FCT.usuario);
   sessionStorage.setItem("password", FCT.password);
+  FCT.loading = true;
   
   router.push({path: '/'})
   }

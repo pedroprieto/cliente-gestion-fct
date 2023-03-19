@@ -10,6 +10,7 @@ import { cursoPeriodoStore } from '@/stores/cursoperiodo'
 export const gestionFCTStore = defineStore('gestionfct', {
     state: () => {
         return {
+            loginError: false,
             loading: false,
             mensaje: "",
             error: false,
@@ -19,27 +20,7 @@ export const gestionFCTStore = defineStore('gestionfct', {
             curso: "",
             periodo: "",
             fm34s: [],
-            fcts: [
-                {
-                    alumno: 'alumno test',
-                    nif_alumno: '123456789k',
-                    empresa: 'empresa test',
-                    dir_empresa: 'dir_empresa_test',
-                    localidad: 'localidad test',
-                    ciclo: 'ciclo test',
-                    grupo: 'grupo test',
-                    tutor: 'tutor test',
-                    instructor: 'instructor test',
-                    nif_instructor: '987654321e',
-                    curso: '2013-2014',
-                    periodo: '5',
-                    fecha_inicio: new Date('2023-03-11'),
-                    fecha_fin: new Date('2023-06-30'),
-                    horas: 400,
-                    id: 1,
-                    visitas: []
-                }
-            ],
+            fcts: [],
             visits: []
         }
     },
@@ -54,7 +35,6 @@ export const gestionFCTStore = defineStore('gestionfct', {
                 mode: 'cors',
                 headers
             };
-            console.log(body);
             if (body)
                 params.body = JSON.stringify(body);
             return fetch(fullUrl, params);
@@ -73,6 +53,14 @@ export const gestionFCTStore = defineStore('gestionfct', {
             this.usuario = sessionStorage.getItem("user");
             this.password = sessionStorage.getItem("password");
         },
+        deleteCredentials: function() {
+            sessionStorage.removeItem('user');
+            sessionStorage.removeItem('password');
+            this.curso = "";
+            this.periodo = "";
+            this.usuario = '';
+            this.password = '';
+        },
         checkLogin: function() {
             return this.usuario;
         },
@@ -84,19 +72,25 @@ export const gestionFCTStore = defineStore('gestionfct', {
         },
         loadFCTs: async function () {
             console.log("loading FCTs");
+            this.loading = true;
+            this.loginError = false;
             let url = `/api/users/${this.usuario}/fcts?curso=${this.curso}&periodo=${this.periodo.value}`;
                 
             return this.request(url, 'GET')
                 .then(response => {
                     if (response.ok) {
+                        this.loginError = false;
                         return response.json();
                     } else {
-                        throw new Error("Ha ocurrido un problema al obtener los datos");
+                        if (response.status == 401) {
+                            throw new Error("Error de autenticación.", {cause: 'auth'});
+                        } else {
+                            throw new Error("Ha ocurrido un problema al obtener los datos");
+                        }
                     }
                 }).then(datos => {
                     this.visits = [];
                     this.fcts = [];
-                    console.log(datos);
                     datos.map(item => {
                         if (item.type == 'FCT') {
                             this.fcts.push(item);
@@ -104,13 +98,18 @@ export const gestionFCTStore = defineStore('gestionfct', {
                             this.visits.push(item);
                         }
                     });
-                    console.log(this.visits);
                     for (let fct of this.fcts) {
                         this.loadVisitsToFCT(fct);
                     }
                 }).catch(error => {
-                    console.log("error");
-                    this.enviarMensaje(error, true);
+                    if (error.cause == 'auth') {
+                        this.deleteCredentials();
+                        this.loginError = true;
+                    } else {
+                        this.enviarMensaje(error, true);
+                    }
+                }).finally(() => {
+                    this.loading = false;
                 });
         },
         loadVisitsToFCT: function (fct) {
