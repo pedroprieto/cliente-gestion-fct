@@ -7,7 +7,7 @@
   import { mdiLogoutVariant } from '@mdi/js'
 
   const router = useRouter();
-  const rutas = router.getRoutes().filter(route => route.name != 'login');;
+  const rutas = router.getRoutes().filter(route => (route.name != 'login') && (route.name!='anyadirVisita') && (route.name != 'editarVisita'));
   const FCT = gestionFCTStore();
 
   function logOut() {
@@ -22,7 +22,7 @@
     <nav class="navbar" role="navigation" aria-label="main navigation">
       <div class="navbar-menu">
         <div class="navbar-start">
-          <RouterLink v-for="ruta of rutas" :key="ruta.id" :class="{'is-active': this.$route.path == ruta.path}" class="navbar-item" :to="`${ruta.path}?curso=${FCT.curso}&periodo=${FCT.periodo.value}`">{{ruta.meta.prompt}}</RouterLink>
+          <RouterLink v-for="ruta of rutas" :key="ruta.id" :class="{'is-active': this.$route.path == ruta.path}" class="navbar-item" :to="{name: ruta.name, params: {curso: FCT.curso, periodo: FCT.periodo}}">{{ruta.meta.prompt}}</RouterLink>
         </div>
         <div class="navbar-end">
           <div class="navbar-item">

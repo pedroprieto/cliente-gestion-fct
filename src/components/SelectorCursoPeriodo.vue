@@ -3,7 +3,7 @@
   <label for="curso" class="label">Curso</label>
 </div>
 <div class="navbar-item select is-primary">
-  <select v-model="curso" id="curso" @change="navegar()">
+  <select v-model="FCT.curso" id="curso" @change="navegar()">
     <option v-for="curso of cursos" :value="curso" :key="curso">{{curso}}</option>
   </select>
 </div>
@@ -12,52 +12,27 @@
   <label for="periodo" class="label">Período</label>
 </div>
 <div class="navbar-item select is-primary">
-  <select v-model="periodo.value" id="periodo" @change="navegar()">
+  <select v-model="FCT.periodo" id="periodo" @change="navegar()">
     <option v-for="periodo of periodos" :value="periodo.value" :key="periodo">{{periodo.text}}</option>
   </select>
 </div>
 </template>
 
 <script>
-import { cursoPeriodoStore } from '@/stores/cursoperiodo';
+import { CP } from '../aux/cursoperiodo';
 import { gestionFCTStore } from '@/stores/gestionfct';
 
 export default {
     data() {
         return {
-            cursos: [],
-            periodos: [],
-            curso: "",
-            periodo: {}
-        }
-    },
-    async mounted() {
-        const FCT = gestionFCTStore();
-        const cursoperiodo = cursoPeriodoStore();
-
-        this.cursos = cursoperiodo.getcursoslist();
-        this.periodos = cursoperiodo.getperiodoslist();
-
-        if ((!FCT.curso) || (!FCT.periodo)) {
-            // Si no está cargado curso o período en el estado
-            // Curso y período actual: a partir de query o curso por defecto
-            this.curso = cursoperiodo.getCurso(this.$route.query.curso);
-            this.periodo = cursoperiodo.getPeriodoFromCode(this.$route.query.periodo);
-            FCT.updateCurso(this.curso);
-            FCT.updatePeriodo(this.periodo);
-            await FCT.loadFCTs();
-        } else {
-            this.curso = FCT.curso;
-            this.periodo = FCT.periodo;
+            cursos: CP.getcursoslist(),
+            periodos: CP.getperiodoslist(),
+            FCT: gestionFCTStore()
         }
     },
     methods: {
         navegar: async function() {
-            const FCT = gestionFCTStore();
-            this.$router.push({path: this.$route.path, query: {curso: this.curso, periodo: this.periodo.value}})
-            FCT.updateCurso(this.curso);
-            FCT.updatePeriodo(this.periodo);
-            await FCT.loadFCTs();
+            this.$router.push({name: this.$route.name, params: {curso: this.FCT.curso, periodo: this.FCT.periodo}})
         }
     }
 }

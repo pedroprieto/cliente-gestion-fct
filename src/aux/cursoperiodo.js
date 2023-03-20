@@ -1,7 +1,5 @@
-import { defineStore } from 'pinia'
 
-export const cursoPeriodoStore = defineStore('cursoperiodo', {
-    actions: {
+export const CP = {
         getcursoslist: function () {
             var curso_inicial = 2012;
             var now = new Date();
@@ -79,4 +77,3 @@ export const cursoPeriodoStore = defineStore('cursoperiodo', {
 
         }
     }
-})

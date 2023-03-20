@@ -5,11 +5,12 @@ import PizZip from 'pizzip'
 import PizZipUtils from 'pizzip/utils/index.js'
 import { saveAs } from 'file-saver'
 import { groupByISOWeek } from './groupByISOWeek.js'
-import { cursoPeriodoStore } from '@/stores/cursoperiodo'
 
 export const gestionFCTStore = defineStore('gestionfct', {
     state: () => {
         return {
+            formActive: false,
+            editingItem: null,
             loginError: false,
             loading: false,
             mensaje: "",
@@ -64,17 +65,11 @@ export const gestionFCTStore = defineStore('gestionfct', {
         checkLogin: function() {
             return this.usuario;
         },
-        updateCurso: function (curso) {
-            this.curso = curso;
-        },
-        updatePeriodo: function (periodo) {
-            this.periodo = periodo;
-        },
-        loadFCTs: async function () {
+        loadFCTs: function () {
             console.log("loading FCTs");
             this.loading = true;
             this.loginError = false;
-            let url = `/api/users/${this.usuario}/fcts?curso=${this.curso}&periodo=${this.periodo.value}`;
+            let url = `/api/users/${this.usuario}/fcts?curso=${this.curso}&periodo=${this.periodo}`;
                 
             return this.request(url, 'GET')
                 .then(response => {
@@ -120,6 +115,12 @@ export const gestionFCTStore = defineStore('gestionfct', {
             fct.visita_adicional = fct.visitas.filter((v) => v.tipo == 'adicional')
 
         },
+        getVisit: function(fctId, tipo) {
+            return this.visits.find(v => (v.fctId == fctId) && v.tipo == tipo);
+        },
+        getFCT: function(fctId) {
+            return this.fcts.find(f => f.id == fctId);
+        },
         getVisitsByFCTId: function (fctId) {
             return this.visits.filter((visit) => visit.fctId == fctId)
         },
@@ -132,9 +133,9 @@ export const gestionFCTStore = defineStore('gestionfct', {
                 return cond
             })
         },
-        getFCTSByEmpresa: async function (empresa) {
-            return this.fcts.filter((fct) => {
-                return fct.empresa == empresa
+        getFCTsMismaEmpresa: function (fct) {
+            return this.fcts.filter((f) => {
+                return (f.empresa == fct.empresa) && (f.id != fct.id);
             })
         },
         deleteVisit: function (fct, visit) {
@@ -176,22 +177,22 @@ export const gestionFCTStore = defineStore('gestionfct', {
                 .then(response => {
                     this.loading = false;
                     if (response.ok) {
-                        this.visits.push(visitData);
-                        this.loadVisitsToFCT(fct);
+                        // this.visits.push(visitData);
+                        // this.loadVisitsToFCT(fct);
+                        return this.loadFCTs();
                     } else {
                         throw new Error("No se ha podido crear la visita");
                     }
                 });
         },
-        updateVisit: function (visitData, fct) {
-            let url = visitData.href;
+        updateVisit: function (visita, visitData, fct) {
+            let url = visita.href;
             this.loading = true;
             return this.request(url, 'PUT', visitData)
                 .then(response => {
                     this.loading = false;
                     if (response.ok) {
-                        let foundVisit = this.visits.find((v) => v.id == visitData.id);
-                        foundVisit = Object.assign(foundVisit, visitData)
+                        visita = Object.assign(visita, visitData)
                         this.loadVisitsToFCT(fct);
                     } else {
                         throw new Error("No se ha podido actualizar la visita");
