@@ -2,7 +2,7 @@
   <div>
     <NavBar/>
 <div class="container">
-  <TituloPagina titulo="Etiquetas"/>
+  <TituloPagina class="tituloPagina" titulo="Etiquetas"/>
   <div id="control" class="box">
     <div class="columns">
     <div class="control column is-narrow">
@@ -97,21 +97,11 @@ export default {
     margin: 0;
 } 
 
-body {
-    /* A4: 210 × 297*/
-    width: 210mm;
-    height: 297mm;
-    padding: 0;
-    font: 8.5pt sans-serif;
-    margin: 0;
-    margin-left: 2mm;
-}
 
 .etiquetas{
     display: flex;
     flex-wrap: wrap;
     margin: 0;
-    width: 210mm;
     padding: 0;
 }
 
@@ -119,7 +109,7 @@ body {
     font-size: 8.5pt;
     box-sizing: border-box;
     flex: 0 1 auto;
-    width: 69.9mm; /*3 etiquetas a lo ancho */
+    width: 33.3%;
     height: 37mm; /* 8 etiquetas a lo alto */
     padding: 1mm;
     margin: 0cm; /* Sin márgenes */
@@ -153,12 +143,30 @@ body {
 }
 
 @media print {
+    .etiquetas{
+        width: 210mm;
+    }
+    .etiqueta {
+        width: 69.99mm; /*3 etiquetas a lo ancho */
+    }
+    body {
+        /* A4: 210 × 297*/
+        width: 210mm;
+        height: 297mm;
+        padding: 0;
+        font: 8.5pt sans-serif;
+        margin: 0;
+        margin-left: 2mm;
+    }
     header {
         display: none;
     }
     
     #control {
 	display: none;
+    }
+    .tituloPagina {
+        display: none;
     }
 }
 </style>
