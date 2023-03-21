@@ -167,9 +167,16 @@ export const gestionFCTStore = defineStore('gestionfct', {
                 return cond
             })
         },
-        getFCTsMismaEmpresa: function (fct) {
+        getFCTsMismaEmpresa: function (fct, tipo) {
             return this.fcts.filter((f) => {
-                return (f.empresa == fct.empresa) && (f.id != fct.id);
+                let check = true;
+                if (tipo == 'inicial')
+                    check = !f.visita_ini;
+                if (tipo == 'seguimiento')
+                    check = !f.visita_seg;
+                if (tipo == 'final')
+                    check = !f.visita_fin;
+                return (f.empresa == fct.empresa) && (f.id != fct.id) && (check);
             })
         },
         deleteVisit: function (fct, visit) {

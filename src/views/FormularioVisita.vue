@@ -6,7 +6,7 @@
     <label for="tipo" class="label">Tipo</label>
   </div>
   <div class="field select">
-    <select v-model="visit.tipo" id="tipo" :disabled="tipo" required>
+    <select @change="cargarEmpresasRelacionadas()" v-model="visit.tipo" id="tipo" :disabled="tipo" required>
       <option v-for="tipo of tipos" :value="tipo" :key="tipo">{{tipo}}</option>
     </select>
   </div>
@@ -157,15 +157,17 @@ export default {
                 return !this.fct.visitas.find(v => v.tipo == tipo);
             });
             this.titulo = `Crear visita en: ${this.fct.empresa} - ${this.fct.alumno}`;
-            this.related = this.FCT.getFCTsMismaEmpresa(this.fct).map(fct => {
+        }
+    },
+    methods: {
+        cargarEmpresasRelacionadas: function() {
+            this.related = this.FCT.getFCTsMismaEmpresa(this.fct, this.visit.tipo).map(fct => {
                 return {
                     fct: fct,
                     selected: true
                 }
             });
-        }
-    },
-    methods: {
+        },
         cancelarEdicion: function () {
             this.$router.go(-1);
         },
