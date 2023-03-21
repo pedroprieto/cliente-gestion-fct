@@ -26,6 +26,11 @@ export const gestionFCTStore = defineStore('gestionfct', {
         }
     },
     actions: {
+        resetSeleccion() {
+            this.fcts.forEach(fct => {
+                fct.selected = false;
+            });
+        },
         request(url, method, body) {
             let fullUrl = `http://localhost:3000${url}`;
             let headers = new Headers();

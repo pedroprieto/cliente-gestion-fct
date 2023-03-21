@@ -5,6 +5,7 @@ import DocumentacionView from '../views/DocumentacionView.vue'
 import FM34View from '../views/FM34View.vue'
 import LoginView from '../views/LoginView.vue'
 import ImportarView from '../views/ImportarView.vue'
+import EtiquetasView from '../views/EtiquetasView.vue'
 import FormularioVisita from '../views/FormularioVisita.vue'
 import { CP } from '../aux/cursoperiodo';
 
@@ -71,6 +72,15 @@ const router = createRouter({
             prompt: "FM34",
         },
       component: FM34View,
+      props: true
+    },
+      {
+      path: '/api/users/fcts/items/:curso/:periodo/etiquetas',
+      name: 'etiquetas',
+        meta: {
+            prompt: "Etiquetas",
+        },
+      component: EtiquetasView,
       props: true
     },
     {

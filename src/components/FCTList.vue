@@ -94,14 +94,14 @@
         </button>
         </td>
         <td>
-        <button class="button is-link">
+        <button class="button is-link" @click="generarEtiqueta(fct)">
           <span class="icon">
             <svg-icon class="mdi" type="mdi" :path="mdiLabelOutline"></svg-icon>
           </span>
         </button>
         </td>
         <td>
-        <button class="button is-danger">
+          <button class="button is-danger" @click="borrarFCT(fct)">
           <span class="icon">
             <svg-icon class="mdi" type="mdi" :path="mdiTrashCanOutline"></svg-icon>
           </span>
@@ -153,8 +153,13 @@ export default {
                     });
             }
         },
+        generarEtiqueta: function(fct) {
+            this.FCT.resetSeleccion();
+            fct.selected = true;
+            this.$router.push('etiquetas', {params: this.$route.params});
+         },
         generarCertificado: function (tipo, fct) {
-      this.FCT.generarCertificados(tipo, fct)
+            this.FCT.generarCertificados(tipo, fct)
     }
   }
 }
