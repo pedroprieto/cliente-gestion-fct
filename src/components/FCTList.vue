@@ -1,17 +1,20 @@
 <template>
   <div class="level">
     <div class="level-left ">
-      <button @click="FCT.importarFCTs()" class="button is-primary is-centered">
-        <span class="icon">
-          <svg-icon class="mdi" type="mdi" :path="mdiDownload"></svg-icon>
-        </span>
-        <span>
-          Importar FCTs
-        </span>
-      </button>
+      <div class="level-item">
+        <button @click="FCT.importarFCTs()" class="button is-primary">
+          <span class="icon">
+            <svg-icon class="mdi" type="mdi" :path="mdiDownload"></svg-icon>
+          </span>
+          <span>
+            Importar FCTs
+          </span>
+        </button>
+      </div>
     </div>
-    <div class="buttons level-right">
-      <button :disabled="!anySelected" @click="generarCertificados('cert_alumno')" class="button is-outlined is-primary">
+    <div class="level-right">
+      <div class="level-item">
+        <button :disabled="!anySelected" @click="generarCertificados('cert_alumno')" class="button is-outlined is-primary">
         <span class="icon">
           <svg-icon class="mdi" type="mdi" :path="mdiAccountSchool"></svg-icon>
         </span>
@@ -19,7 +22,9 @@
           Certificados de alumado
         </span>
       </button>
-      <button
+      </div>
+      <div class="level-item">
+        <button
         :disabled="!anySelected"
         @click="generarCertificados('cert_instructor')"
         class="button is-outlined is-primary"
@@ -31,7 +36,9 @@
           Certificados de instructores
         </span>
       </button>
-      <button :disabled="!anySelected" @click="generarCertificados('fm18')" class="button is-outlined is-primary">
+      </div>
+      <div class="level-item">
+        <button :disabled="!anySelected" @click="generarCertificados('fm18')" class="button is-outlined is-primary">
         <span class="icon">
           <svg-icon class="mdi" type="mdi" :path="mdiClipboardListOutline"></svg-icon>
         </span>
@@ -39,14 +46,17 @@
           FM18s
         </span>
       </button>
-      <button :disabled="!anySelected" @click="mostrarEtiquetas()" class="button is-outlined is-primary">
-        <span class="icon">
-          <svg-icon class="mdi" type="mdi" :path="mdiLabelOutline"></svg-icon>
-        </span>
-        <span>
-          Etiquetas
-        </span>
-      </button>
+      </div>
+      <div class="level-item">
+        <button :disabled="!anySelected" @click="mostrarEtiquetas()" class="button is-outlined is-primary">
+          <span class="icon">
+            <svg-icon class="mdi" type="mdi" :path="mdiLabelOutline"></svg-icon>
+          </span>
+          <span>
+            Etiquetas
+          </span>
+        </button>
+      </div>
     </div>
   </div>
 
@@ -97,14 +107,14 @@
       </th>
     </thead>
     <tbody>
-      <tr v-for="fct of FCT.fcts" :key="fct.id" @click="selectRow(fct)">
-        <td>
+      <tr :class="{'is-selected': fct.selected}" v-for="fct of FCT.fcts" :key="fct.id">
+        <td class="cursorPointer">
           <input type="checkbox" v-model="fct.selected" @change="checkAll()"/>
         </td>
-        <td>
+        <td class="cursorPointer" @click="selectRow(fct)">
           {{fct.empresa}}
         </td>
-        <td>
+        <td class="cursorPointer" @click="selectRow(fct)">
           {{fct.alumno}}
         </td>
         <td>
@@ -123,51 +133,56 @@
           {{fct.dir_empresa}}
         </td>
         <td>
-          <button class="button is-primary" @click="mostrarVisitas(fct)">
-            <span class="icon">
-              <svg-icon class="mdi" type="mdi" :path="mdiTrainCar"></svg-icon>
-            </span>
-          </button>
+          <span @click="mostrarVisitas(fct)">
+            <span class="tag" :class="{'is-success': fct.visita_ini, 'is-warning': !fct.visita_ini}">Inicial</span>
+            <span class="tag" :class="{'is-success': fct.visita_seg, 'is-warning': !fct.visita_seg}">Seguimiento</span>
+            <span class="tag" :class="{'is-success': fct.visita_fin, 'is-warning': !fct.visita_fin}">Final</span>
+          </span>
+          <!-- <button class="button is-primary" @click="mostrarVisitas(fct)"> -->
+            <!--   <span class="icon"> -->
+              <!--     <svg-icon class="mdi" type="mdi" :path="mdiTrainCar"></svg-icon> -->
+              <!--   </span> -->
+            <!-- </button> -->
         </td>
         <td>
-          <button class="button is-link" @click.stop="generarCertificado('cert_alumno', fct)">
+          <button class="button is-info" @click.stop="generarCertificado('cert_alumno', fct)">
             <span class="icon">
               <svg-icon class="mdi" type="mdi" :path="mdiAccountSchool"></svg-icon>
             </span>
           </button>
         </td>
         <td>
-        <button class="button is-link" @click.stop="generarCertificado('cert_instructor', fct)">
-          <span class="icon">
-            <svg-icon class="mdi" type="mdi" :path="mdiHumanMaleBoard"></svg-icon>
-          </span>
-        </button>
+          <button class="button is-info" @click.stop="generarCertificado('cert_instructor', fct)">
+            <span class="icon">
+              <svg-icon class="mdi" type="mdi" :path="mdiHumanMaleBoard"></svg-icon>
+            </span>
+          </button>
         </td>
         <td>
-        <button class="button is-link" @click.stop="generarCertificado('fm18', fct)">
-          <span class="icon">
-            <svg-icon class="mdi" type="mdi" :path="mdiClipboardListOutline"></svg-icon>
-          </span>
-        </button>
+          <button class="button is-info" @click.stop="generarCertificado('fm18', fct)">
+            <span class="icon">
+              <svg-icon class="mdi" type="mdi" :path="mdiClipboardListOutline"></svg-icon>
+            </span>
+          </button>
         </td>
         <td>
-        <button class="button is-link" @click.stop="generarEtiqueta(fct)">
-          <span class="icon">
-            <svg-icon class="mdi" type="mdi" :path="mdiLabelOutline"></svg-icon>
-          </span>
-        </button>
+          <button class="button is-info" @click.stop="generarEtiqueta(fct)">
+            <span class="icon">
+              <svg-icon class="mdi" type="mdi" :path="mdiLabelOutline"></svg-icon>
+            </span>
+          </button>
         </td>
         <td>
           <button class="button is-danger" @click="borrarFCT(fct)">
-          <span class="icon">
-            <svg-icon class="mdi" type="mdi" :path="mdiTrashCanOutline"></svg-icon>
-          </span>
-        </button>
+            <span class="icon">
+              <svg-icon class="mdi" type="mdi" :path="mdiTrashCanOutline"></svg-icon>
+            </span>
+          </button>
         </td>
       </tr>
     </tbody>
   </table>
-  </div>
+</div>
 </template>
 
 <script>
@@ -244,23 +259,23 @@ export default {
                 }).catch(error => {
                     console.log("error");
                     this.FCT.enviarMensaje(error, true);
-                    });
+                });
             }
         },
         generarEtiqueta: function(fct) {
             this.FCT.resetSeleccion();
             fct.selected = true;
             this.$router.push('etiquetas', {params: this.$route.params});
-         },
+        },
         generarCertificado: function (tipo, fct) {
             this.FCT.generarCertificados(tipo, fct)
+        }
     }
-  }
 }
 </script>
 
 <style>
-  tbody tr {
+  .cursorPointer {
   cursor: pointer;
   }
 </style>
