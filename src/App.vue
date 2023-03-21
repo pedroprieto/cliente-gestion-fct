@@ -15,7 +15,7 @@
           return { name: 'login' }
       }
 
-      if ((!from.params.periodo) | (!from.params.curso) || ((from.params.curso != to.params.curso) || (from.params.periodo != to.params.periodo))) {
+      if ((to.name !== 'login') && ((!from.params.periodo) || (!from.params.curso) || ((from.params.curso != to.params.curso) || (from.params.periodo != to.params.periodo)))) {
           FCT.curso = to.params.curso;
           FCT.periodo = to.params.periodo;
           await FCT.loadFCTs();
