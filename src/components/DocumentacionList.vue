@@ -48,7 +48,7 @@
   </label>
   
   <label class="panel-block" v-for="fct of FCT.fcts" :key="fct.id">
-    <input type="checkbox" v-model="fct.selected" />
+    <input type="checkbox" v-model="fct.selected" @change="checkAll()"/>
     {{ fct.empresa }} - {{ fct.alumno }}
   </label>
 </div>
@@ -79,6 +79,13 @@ export default {
         }
     },
     methods: {
+        checkAll: function() {
+            if ((this.FCT.fcts.filter(f => f.selected)).length == this.FCT.fcts.length) {
+                this.allSelected = true;
+            } else {
+                this.allSelected = false;
+            }
+        },
         mostrarEtiquetas: function() {
             this.$router.push({name: 'etiquetas', params: this.$route.params});
         },
