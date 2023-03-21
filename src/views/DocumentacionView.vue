@@ -1,9 +1,11 @@
 <template>
+  <div>
   <NavBar/>
 <div class="container">
   <TituloPagina titulo="Documentación"/>
   
   <DocumentacionList />
+</div>
 </div>
 </template>
 

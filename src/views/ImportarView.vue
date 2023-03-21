@@ -1,10 +1,12 @@
 <template>
+  <div>
   <NavBar/>
 <div class="container">
   <TituloPagina titulo="Importar FCTs"/>
 
     <ImportFCT/>
   </div>
+</div>
 </template>
 
 <script setup>

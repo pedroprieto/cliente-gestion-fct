@@ -1,10 +1,12 @@
 <template>
+  <div>
   <NavBar/>
   <div class="container">
     <TituloPagina titulo="Listado de FCTs"/>
 
     <FCTList />
   </div>
+</div>
 </template>
 
 <script setup>

@@ -1,13 +1,8 @@
 <template>
-  <article class="message" :class="{'is-danger': FCT.error, 'is-info': !FCT.error}">
-  <div class="message-header">
-    <p>Error</p>
-    <button @click="cerrarMensaje()"  type="button" class="delete" aria-label="delete"></button>
-  </div>
-  <div class="message-body">
-    {{ FCT.mensaje }}
-  </div>
-</article>
+    <article id="mensaje" class="notification" :class="{'is-danger': FCT.error, 'is-info': !FCT.error}">
+      <button @click="cerrarMensaje()"  type="button" class="delete" aria-label="delete"></button>
+      {{ FCT.mensaje }}
+    </article>
 </template>
 
 <script>
@@ -34,8 +29,10 @@ export default {
 </script>
 
 <style scoped>
-.message {
-position: fixed;
-bottom: 1em;
+#mensaje {
+    left: 10%;
+    width: 80%;
+    position: fixed;
+    bottom: 0;
 }
 </style>

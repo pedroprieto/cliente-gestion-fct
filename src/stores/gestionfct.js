@@ -150,6 +150,8 @@ export const gestionFCTStore = defineStore('gestionfct', {
                     } else {
                         throw new Error("No se ha podido borrar la visita");
                     }
+                }).finally(() => {
+                    this.loading = false;
                 });
         },
         deleteFCT: function (fct) {
@@ -167,6 +169,8 @@ export const gestionFCTStore = defineStore('gestionfct', {
                     } else {
                         throw new Error("No se ha podido borrar la FCT");
                     }
+                }).finally(() => {
+                    this.loading = false;
                 });
         },
         // TODO: hacer que servidor devuelva visita con datos correctos tras update y add
@@ -183,6 +187,8 @@ export const gestionFCTStore = defineStore('gestionfct', {
                     } else {
                         throw new Error("No se ha podido crear la visita");
                     }
+                }).finally(() => {
+                    this.loading = false;
                 });
         },
         updateVisit: function (visita, visitData, fct) {
@@ -197,6 +203,8 @@ export const gestionFCTStore = defineStore('gestionfct', {
                     } else {
                         throw new Error("No se ha podido actualizar la visita");
                     }
+                }).finally(() => {
+                    this.loading = false;
                 });
         },
         generarCertificados: function (tipo, fct) {

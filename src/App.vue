@@ -36,9 +36,27 @@
 </script>
 
 <template>
-  <RouterView/>
+ <router-view v-slot="{ Component }">
+  <transition name="fade" mode="out-in">
+    <component :is="Component" />
+  </transition>
+</router-view>
+
+ <transition name="fade">
   <CompMensaje v-if="FCT.mostrarMensaje"/>
+ </transition>
   <LoadOverlay v-if="FCT.loading"/>
 </template>
 
-<style scoped></style>
+<style>
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.2s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+</style>

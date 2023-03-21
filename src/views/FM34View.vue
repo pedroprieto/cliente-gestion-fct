@@ -1,9 +1,11 @@
 <template>
-  <NavBar/>
-  <div class="container">
-    <TituloPagina titulo="FM34"/>
-    <FM34sList/>
-  </div>
+  <div>
+<NavBar/>
+<div class="container">
+  <TituloPagina titulo="FM34"/>
+  <FM34sList/>
+</div>
+</div>
 </template>
 
 <script setup>
