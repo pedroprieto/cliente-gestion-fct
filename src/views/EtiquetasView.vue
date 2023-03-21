@@ -1,35 +1,45 @@
 <template>
   <div>
-  <NavBar/>
+    <NavBar/>
 <div class="container">
+  <TituloPagina titulo="Etiquetas"/>
   <div id="control" class="box">
-    <div class="field is-horizontal">
-      <div class="field-label is-normal">
-        <label for="offset" class="label">Empezar en:</label>
+    <div class="columns">
+    <div class="control column is-narrow">
+      <button type="button" @click="volver()" class="button is-link is-light">
+        <span class="icon">
+          <svg-icon class="mdi" type="mdi" :path="mdiArrowLeft"></svg-icon>
+        </span>
+        <span>
+          Volver al listado de FCTs
+        </span>
+      </button>
+    </div>
+    <div class="column">
+      <div class="field is-horizontal">
+      <div class="field-label is-normal is-fullwidth">
+        <label for="offset" class="label">Comenzar en:</label>
       </div>
       <div class="field-body">
-        <div class="field is-narrow">
-          <div class="control">
-            <input v-model="offset" id="offset" class="input is-primary" type="number"/>
-          </div>
-        </div>
-      </div>
-      <div class="field-body">
-        <div class="field is-narrow">
-          <div class="control">
-            <button @click="volver()" type="button" class="button">Volver</button>
-          </div>
-        </div>
-      </div>
-      <div class="field-body">
-        <div class="field is-narrow">
-          <div class="control">
-            <button @click="imprimir()" type="button" class="button is-primary">Imprimir etiquetas</button>
+        <div class="field  is-narrow">
+          <div class="control ">
+            <input v-model="offset" min="0" max="24" id="offset" class="input is-primary" type="number"/>
           </div>
         </div>
       </div>
     </div>
-    
+    </div>
+    <div class="control column is-narrow">
+            <button @click="imprimir()" type="button" class="button is-primary is-fullwidth">
+              <span class="icon">
+                <svg-icon class="mdi" type="mdi" :path="mdiPrinterOutline"></svg-icon>
+              </span>
+              <span>
+                Imprimir etiquetas
+              </span>
+            </button>
+    </div>
+    </div>
   </div>
   <div class="etiquetas box">
     <div v-for="n in offset" class="etiqueta vacia" :key="n">
@@ -50,16 +60,20 @@
 <script>
 import { gestionFCTStore } from '@/stores/gestionfct'
 import SvgIcon from '@jamescoyle/vue-icon'
-import { mdiAccount, mdiLock, mdiAccountSchool, mdiHumanMaleBoard, mdiClipboardListOutline, mdiLabelOutline, mdiTrainCar, mdiTrashCanOutline} from '@mdi/js'
+import { mdiArrowLeft, mdiPrinterOutline } from '@mdi/js'
 import NavBar from '../components/NavBar.vue'
+import TituloPagina from '../components/TituloPagina.vue'
 
 export default {
     components: {
         SvgIcon,
-        NavBar
+        NavBar,
+        TituloPagina
     },
     data() {
         return {
+            mdiArrowLeft,
+            mdiPrinterOutline,
             fcts: gestionFCTStore().fcts.filter(f => f.selected),
             offset: 0,
         }
@@ -70,7 +84,7 @@ export default {
         },
         imprimir: function() {
             window.print();
-            }
+        }
     }
 }
 </script>

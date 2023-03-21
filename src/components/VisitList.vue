@@ -11,7 +11,7 @@
   </button>
     
   </div>
-  <div class="table-container">
+  <div class="table-container box">
   <table class="table">
     <thead>
       <th>

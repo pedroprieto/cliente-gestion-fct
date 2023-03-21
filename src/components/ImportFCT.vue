@@ -1,10 +1,12 @@
 <template>
+  <div class="box">
 <div class="columns is-centered">
   <div class="column is-5-tablet is-4-desktop is-3-widescreen">
     <button @click="importarFCTs()" :disabled="disabled" type="button" class="button is-primary is-fullwidth is-large">
       Importar FCTs
     </button>
   </div>
+</div>
 </div>
 
 <article v-if="mensaje" class="message" :class="{'is-success': !error, 'is-danger': error}">

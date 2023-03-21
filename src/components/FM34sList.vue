@@ -2,7 +2,7 @@
 <div class="panel">
 
   <div class="panel-block">
-    <button @click="generarFM34s()" class="button is-primary is-fullwidth">
+    <button :disabled="!anySelected" @click="generarFM34s()" class="button is-primary is-fullwidth">
           Generar
         </button>
       </div>
@@ -30,6 +30,11 @@ export default {
       fm34s: [],
     }
   },
+  computed: {
+      anySelected: function() {
+          return this.fm34s.filter(f => f.selected).length;
+      }
+    },
   async created() {
     const FCT = gestionFCTStore()
     this.fm34s = await FCT.getFM34s()
