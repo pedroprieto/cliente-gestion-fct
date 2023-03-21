@@ -248,10 +248,7 @@ export const gestionFCTStore = defineStore('gestionfct', {
                 });
         },
         generarCertificados: function (tipo, fct) {
-            // fct.visita_ini = fct.visitas.find(v => v.tipo == 'inicial');
-            // fct.visita_seg = fct.visitas.find(v => v.tipo == 'seguimiento');
-            // fct.visita_fin = fct.visitas.find(v => v.tipo == 'final');
-            let url = `http://localhost:5173/office_templates/${tipo}.docx`
+            let url = `/office_templates/${tipo}.docx`
             var generation_date = new Date().toLocaleDateString('es')
             PizZipUtils.getBinaryContent(url, (err, content) => {
                 const zip = new PizZip(content)
