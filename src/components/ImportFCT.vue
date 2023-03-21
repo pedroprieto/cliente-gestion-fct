@@ -1,7 +1,7 @@
 <template>
 <div class="columns is-centered">
   <div class="column is-5-tablet is-4-desktop is-3-widescreen">
-    <button @click="importarFCTs()" :disabled="disabled" type="button" class="button is-success is-fullwidth">
+    <button @click="importarFCTs()" :disabled="disabled" type="button" class="button is-primary is-fullwidth is-large">
       Importar FCTs
     </button>
   </div>

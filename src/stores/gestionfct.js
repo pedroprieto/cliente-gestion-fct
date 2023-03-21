@@ -145,7 +145,7 @@ export const gestionFCTStore = defineStore('gestionfct', {
                 .then(response => {
                     this.loading = false;
                     if (response.ok) {
-                        this.visits = this.visits.filter((v) => v.id != visit.id)
+                        this.visits = this.visits.filter((v) => (v != visit))
                         this.loadVisitsToFCT(fct);
                     } else {
                         throw new Error("No se ha podido borrar la visita");

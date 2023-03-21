@@ -1,33 +1,32 @@
 <template>
-
 <div class="container">
   <TituloPagina :titulo="titulo"/>
+  <form @submit.prevent="crearVisita()">
   <div class="field">
     <label for="tipo" class="label">Tipo</label>
   </div>
   <div class="field select">
-    <select v-model="visit.tipo" id="tipo" :disabled="tipo">
+    <select v-model="visit.tipo" id="tipo" :disabled="tipo" required>
       <option v-for="tipo of tipos" :value="tipo" :key="tipo">{{tipo}}</option>
     </select>
   </div>
   <div class="field">
     <label for="distancia" class="label">Distancia</label>
     <div class="control">
-      <input v-model="visit.distancia" id="distancia" class="input" type="number" placeholder="" />
+      <input required v-model="visit.distancia" id="distancia" class="input" type="number" placeholder="" />
     </div>
   </div>
-  
   <div class="field">
     <label for="fecha" class="label">Fecha</label>
     <div class="control">
-      <input v-model="visit.fecha" id="fecha" class="input" type="date" placeholder="" />
+      <input required v-model="visit.fecha" id="fecha" class="input" type="date" placeholder="" />
     </div>
   </div>
-  
   <div class="field">
     <label for="hora_salida" class="label">Hora de salida</label>
     <div class="control">
       <input
+        required
         v-model="visit.hora_salida"
         id="hora_salida"
         class="input"
@@ -36,11 +35,11 @@
         />
     </div>
   </div>
-  
   <div class="field">
     <label for="hora_regreso" class="label">Hora de regreso</label>
     <div class="control">
       <input
+        required
         v-model="visit.hora_regreso"
         id="hora_regreso"
         class="input"
@@ -53,7 +52,7 @@
   <div class="field">
     <label for="localidad" class="label">Localidad</label>
     <div class="control">
-      <input v-model="visit.localidad" id="localidad" class="input" type="text" placeholder="" />
+      <input required v-model="visit.localidad" id="localidad" class="input" type="text" placeholder="" />
     </div>
   </div>
   
@@ -61,6 +60,7 @@
     <label for="impresion" class="label">Impresión</label>
     <div class="control">
       <textarea
+        required
         v-model="visit.impresion"
         class="textarea"
         id="impresion"
@@ -93,12 +93,13 @@
 
   <div class="field is-grouped">
     <div class="control">
-      <button @click="crearVisita()" class="button is-primary">Submit</button>
+      <button type="submit" class="button is-primary">Enviar</button>
     </div>
     <div class="control">
-      <button @click="cancelarEdicion()" class="button is-link is-light">Cancel</button>
+      <button @click="cancelarEdicion()" class="button is-link is-light">Cancelar</button>
     </div>
   </div>
+  </form>
 </div>
 </template>
 
@@ -140,7 +141,6 @@ export default {
             // Editando
             this.titulo = `Editando visita ${this.tipo} en: ${this.fct.empresa} - ${this.fct.alumno}`;
             this.visita = this.FCT.getVisit(this.fctId, this.tipo);
-
             this.visit.tipo = this.visita.tipo;
             this.visit.fecha = this.visita.fecha;
             this.visit.hora_salida = this.visita.hora_salida;
@@ -155,27 +155,24 @@ export default {
                     return true;
                 return !this.fct.visitas.find(v => v.tipo == tipo);
             });
-            
             this.titulo = `Crear visita en: ${this.fct.empresa} - ${this.fct.alumno}`;
             this.related = this.FCT.getFCTsMismaEmpresa(this.fct).map(fct => {
                 return {
                     fct: fct,
                     selected: true
                 }
-                
             });
         }
-        
-  },
-  methods: {
-    cancelarEdicion: function () {
-        this.$router.go(-1);
     },
-    crearVisita: async function () {
-        if (!this.tipo) {
-            // TODO: Añadir related. ¿Mejorar?
-            this.visit.related = this.related.reduce((res, r) => {
-                if (r.selected) {
+    methods: {
+        cancelarEdicion: function () {
+            this.$router.go(-1);
+        },
+        crearVisita: async function () {
+            if (!this.tipo) {
+                // TODO: Añadir related. ¿Mejorar?
+                this.visit.related = this.related.reduce((res, r) => {
+                    if (r.selected) {
                     res.push(r.fct.id);
                     }
                 return res;
@@ -185,7 +182,7 @@ export default {
             await this.FCT.updateVisit(this.visita, this.visit, this.fct)
         }
         this.FCT.enviarMensaje("Éxito", false);
-        this.$router.push({name: 'fcts', params: this.$route.params});
+        this.$router.replace({name: 'visitas', params: this.$route.params});
     }
   }
 }

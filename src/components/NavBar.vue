@@ -7,7 +7,7 @@
   import { mdiLogoutVariant } from '@mdi/js'
 
   const router = useRouter();
-  const rutas = router.getRoutes().filter(route => (route.name != 'login') && (route.name!='anyadirVisita') && (route.name != 'editarVisita'));
+  const rutas = router.getRoutes().filter(route => (route.name != 'login') && (route.name!='anyadirVisita') && (route.name != 'editarVisita') && (route.name !='visitas'));
   const FCT = gestionFCTStore();
 
   function logOut() {
