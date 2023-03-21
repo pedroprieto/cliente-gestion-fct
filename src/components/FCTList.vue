@@ -14,7 +14,7 @@
     </div>
     <div class="level-right">
       <div class="level-item">
-        <button :disabled="!anySelected" @click="generarCertificados('cert_alumno')" class="button is-outlined is-primary">
+        <button :disabled="!anySelected" @click="FCT.generarCertificados('cert_alumno')" class="button is-outlined is-primary">
         <span class="icon">
           <svg-icon class="mdi" type="mdi" :path="mdiAccountSchool"></svg-icon>
         </span>
@@ -26,7 +26,7 @@
       <div class="level-item">
         <button
         :disabled="!anySelected"
-        @click="generarCertificados('cert_instructor')"
+        @click="FCT.generarCertificados('cert_instructor')"
         class="button is-outlined is-primary"
         >
         <span class="icon">
@@ -38,7 +38,7 @@
       </button>
       </div>
       <div class="level-item">
-        <button :disabled="!anySelected" @click="generarCertificados('fm18')" class="button is-outlined is-primary">
+        <button :disabled="!anySelected" @click="FCT.generarCertificados('fm18')" class="button is-outlined is-primary">
         <span class="icon">
           <svg-icon class="mdi" type="mdi" :path="mdiClipboardListOutline"></svg-icon>
         </span>
@@ -48,7 +48,7 @@
       </button>
       </div>
       <div class="level-item">
-        <button :disabled="!anySelected" @click="mostrarEtiquetas()" class="button is-outlined is-primary">
+        <button :disabled="!anySelected" @click="generarEtiquetas()" class="button is-outlined is-primary">
           <span class="icon">
             <svg-icon class="mdi" type="mdi" :path="mdiLabelOutline"></svg-icon>
           </span>
@@ -89,6 +89,9 @@
       </th>
       <th>
         <abbr title="Visitas">Visitas</abbr>
+      </th>
+      <th>
+        <abbr title="Visitas">Ver visitas</abbr>
       </th>
       <th>
         <abbr title="Certificado de alumno">C. al.</abbr>
@@ -133,33 +136,35 @@
           {{fct.dir_empresa}}
         </td>
         <td>
-          <span @click="mostrarVisitas(fct)">
+          <span class="tags">
             <span class="tag" :class="{'is-success': fct.visita_ini, 'is-warning': !fct.visita_ini}">Inicial</span>
             <span class="tag" :class="{'is-success': fct.visita_seg, 'is-warning': !fct.visita_seg}">Seguimiento</span>
             <span class="tag" :class="{'is-success': fct.visita_fin, 'is-warning': !fct.visita_fin}">Final</span>
           </span>
-          <!-- <button class="button is-primary" @click="mostrarVisitas(fct)"> -->
-            <!--   <span class="icon"> -->
-              <!--     <svg-icon class="mdi" type="mdi" :path="mdiTrainCar"></svg-icon> -->
-              <!--   </span> -->
-            <!-- </button> -->
         </td>
         <td>
-          <button class="button is-info" @click.stop="generarCertificado('cert_alumno', fct)">
+          <button class="button is-primary" @click="mostrarVisitas(fct)">
+              <span class="icon">
+                  <svg-icon class="mdi" type="mdi" :path="mdiTrainCar"></svg-icon>
+              </span>
+            </button>
+        </td>
+        <td>
+          <button class="button is-info" @click.stop="FCT.generarCertificados('cert_alumno', fct)">
             <span class="icon">
               <svg-icon class="mdi" type="mdi" :path="mdiAccountSchool"></svg-icon>
             </span>
           </button>
         </td>
         <td>
-          <button class="button is-info" @click.stop="generarCertificado('cert_instructor', fct)">
+          <button class="button is-info" @click.stop="FCT.generarCertificados('cert_instructor', fct)">
             <span class="icon">
               <svg-icon class="mdi" type="mdi" :path="mdiHumanMaleBoard"></svg-icon>
             </span>
           </button>
         </td>
         <td>
-          <button class="button is-info" @click.stop="generarCertificado('fm18', fct)">
+          <button class="button is-info" @click.stop="FCT.generarCertificados('fm18', fct)">
             <span class="icon">
               <svg-icon class="mdi" type="mdi" :path="mdiClipboardListOutline"></svg-icon>
             </span>
@@ -227,30 +232,25 @@ export default {
                 this.allSelected = false;
             }
         },
-        mostrarEtiquetas: function() {
+        generarEtiquetas: function() {
             this.$router.push({name: 'etiquetas', params: this.$route.params});
         },
-        generarCertificados: function (tipo) {
-            this.FCT.generarCertificados(tipo)
+        generarEtiqueta: function(fct) {
+            this.FCT.resetSeleccion();
+            fct.selected = true;
+            this.generarEtiquetas();
         },
         toggleSelected() {
             if (this.allSelected) {
                 this.allSelected = false
-                for (let fct of this.FCT.fcts) {
-                    fct.selected = false
-                }
+                this.FCT.resetSeleccion();
             } else {
                 this.allSelected = true
-                for (let fct of this.FCT.fcts) {
-                    fct.selected = true
-                }
+                this.FCT.selectAll();
             }
         },
         mostrarVisitas: function(fct) {
             this.$router.push({name: 'visitas', params: {fctId: fct.id} });
-        },
-        changeTab: function (fct, tab) {
-            fct.selectedTab = tab
         },
         borrarFCT: async function (fct) {
             if (confirm("¿Desea eliminar la FCT? Se borrarán también las visitas asociadas.")) {
@@ -262,14 +262,6 @@ export default {
                 });
             }
         },
-        generarEtiqueta: function(fct) {
-            this.FCT.resetSeleccion();
-            fct.selected = true;
-            this.$router.push('etiquetas', {params: this.$route.params});
-        },
-        generarCertificado: function (tipo, fct) {
-            this.FCT.generarCertificados(tipo, fct)
-        }
     }
 }
 </script>

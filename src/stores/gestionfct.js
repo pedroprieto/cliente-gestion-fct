@@ -30,6 +30,11 @@ export const gestionFCTStore = defineStore('gestionfct', {
                 fct.selected = false;
             });
         },
+        selectAll() {
+            this.fcts.forEach(fct => {
+                fct.selected = true;
+            });
+        },
         request(url, method, body) {
             let fullUrl = `http://localhost:3000${url}`;
             let headers = new Headers();
@@ -253,7 +258,7 @@ export const gestionFCTStore = defineStore('gestionfct', {
             PizZipUtils.getBinaryContent(url, (err, content) => {
                 const zip = new PizZip(content)
                 const doc = new Docxtemplater(zip, { paragraphLoop: true, linebreaks: true })
-                let listaFCTs = !fct ? this.fcts.filter((fct) => fct.selected) : [fct]
+                let listaFCTs = !fct ? this.fcts.filter(fct => fct.selected) : [fct];
                 doc.setData({
                     certs: JSON.parse(
                         JSON.stringify(listaFCTs, function (key, value) {
