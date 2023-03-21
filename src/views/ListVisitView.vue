@@ -1,4 +1,6 @@
 <template>
+  <div>
+<NavBar/>
 <div class="container">
   <TituloPagina :titulo="`Listado de visitas de: ${fct.empresa} - ${fct.alumno}`"/>
   
@@ -18,6 +20,7 @@
     </div>
   </div>
 </div>
+</div>
 </template>
 
 <script setup>
@@ -27,6 +30,7 @@ import VisitList from '../components/VisitList.vue'
 import { gestionFCTStore } from '@/stores/gestionfct'
 import SvgIcon from '@jamescoyle/vue-icon'
 import { mdiArrowLeft } from '@mdi/js'
+import NavBar from '../components/NavBar.vue'
 
 const router = useRouter();
 const route = useRoute();
