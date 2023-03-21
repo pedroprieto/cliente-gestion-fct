@@ -169,7 +169,7 @@ export default {
             });
         },
         cancelarEdicion: function () {
-            this.$router.go(-1);
+            this.$router.push({name: 'visitas', params: this.$route.params});
         },
         crearVisita: async function () {
             if (!this.tipo) {
