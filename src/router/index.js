@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import ListFCTView from '../views/ListFCTView.vue'
 import ListVisitView from '../views/ListVisitView.vue'
-import DocumentacionView from '../views/DocumentacionView.vue'
 import FM34View from '../views/FM34View.vue'
 import LoginView from '../views/LoginView.vue'
 import EtiquetasView from '../views/EtiquetasView.vue'
@@ -46,16 +45,7 @@ const router = createRouter({
       component: FormularioVisita,
       props: true
     },
-    {
-      path: '/api/users/fcts/items/:curso/:periodo/documentacion',
-      name: 'documentacion',
-        meta: {
-            prompt: "Documentación",
-        },
-      component: DocumentacionView,
-      props: true
-    },
-    {
+      {
       path: '/api/users/fcts/items/:curso/:periodo/fm34s',
       name: 'fm34s',
         meta: {
