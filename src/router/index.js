@@ -4,7 +4,6 @@ import ListVisitView from '../views/ListVisitView.vue'
 import DocumentacionView from '../views/DocumentacionView.vue'
 import FM34View from '../views/FM34View.vue'
 import LoginView from '../views/LoginView.vue'
-import ImportarView from '../views/ImportarView.vue'
 import EtiquetasView from '../views/EtiquetasView.vue'
 import FormularioVisita from '../views/FormularioVisita.vue'
 import { CP } from '../aux/cursoperiodo';
@@ -45,15 +44,6 @@ const router = createRouter({
       name: 'editarVisita',
       path: '/api/users/fcts/items/:curso/:periodo/fcts/:fctId/editarVisita/:tipo',
       component: FormularioVisita,
-      props: true
-    },
-    {
-      path: '/api/users/fcts/items/:curso/:periodo/importar',
-      name: 'importar',
-        meta: {
-            prompt: "Importar FCTs",
-        },
-      component: ImportarView,
       props: true
     },
     {

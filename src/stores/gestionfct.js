@@ -70,6 +70,35 @@ export const gestionFCTStore = defineStore('gestionfct', {
         checkLogin: function() {
             return this.usuario;
         },
+        importarFCTs: function() {
+            if (!confirm(`¿Desea realizar la importación de las FCTs del curso ${this.curso}, período ${this.periodo}?`))
+                return;
+            let url = `/api/users/${this.usuario}/import_fcts`;
+            let data = {
+                curso: this.curso,
+                periodo: this.periodo
+            };
+            this.loading = true;
+            return this.request(url, 'POST', data)
+                .then(response => {
+                    this.loading = false;
+                    if (response.ok) {
+                        this.enviarMensaje('Importación realizada con éxito!', false);
+                        return this.loadFCTs();
+                    } else {
+                        throw new Error("Ha ocurrido un error. Por favor, inténtelo de nuevo.");
+                    }
+                }).catch(error => {
+                    if (error.cause == 'auth') {
+                        this.deleteCredentials();
+                        this.loginError = true;
+                    } else {
+                        this.enviarMensaje(error, true);
+                    }
+                }).finally(() => {
+                    this.loading = false;
+                });
+        },
         loadFCTs: function () {
             console.log("loading FCTs");
             this.loading = true;

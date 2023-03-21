@@ -1,4 +1,15 @@
 <template>
+  <div class="field">
+    <button @click="FCT.importarFCTs()" class="button is-primary is-centered">
+      <span class="icon">
+        <svg-icon class="mdi" type="mdi" :path="mdiDownload"></svg-icon>
+      </span>
+      <span>
+        Importar FCTs
+      </span>
+    </button>
+  </div>
+
 <div class="table-container box">
   <table class="table">
     <thead>
@@ -116,7 +127,7 @@
 <script>
 import { gestionFCTStore } from '@/stores/gestionfct'
 import SvgIcon from '@jamescoyle/vue-icon'
-import { mdiAccount, mdiLock, mdiAccountSchool, mdiHumanMaleBoard, mdiClipboardListOutline, mdiLabelOutline, mdiTrainCar, mdiTrashCanOutline} from '@mdi/js'
+import { mdiAccount, mdiLock, mdiAccountSchool, mdiHumanMaleBoard, mdiClipboardListOutline, mdiLabelOutline, mdiTrainCar, mdiTrashCanOutline, mdiDownload} from '@mdi/js'
 
 export default {
     components: {
@@ -132,6 +143,7 @@ export default {
             mdiTrainCar,
             mdiClipboardListOutline,
             mdiTrashCanOutline,
+            mdiDownload,
             FCT: gestionFCTStore(), 
             visitaEditar: null
         }
