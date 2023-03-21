@@ -96,7 +96,7 @@
       <button type="submit" class="button is-primary">Enviar</button>
     </div>
     <div class="control">
-      <button @click="cancelarEdicion()" class="button is-link is-light">Cancelar</button>
+      <button type="button" @click="cancelarEdicion()" class="button is-link is-light">Cancelar</button>
     </div>
   </div>
   </form>
@@ -143,6 +143,7 @@ export default {
             this.visita = this.FCT.getVisit(this.fctId, this.tipo);
             this.visit.tipo = this.visita.tipo;
             this.visit.fecha = this.visita.fecha;
+            this.visit.distancia = this.visita.distancia;
             this.visit.hora_salida = this.visita.hora_salida;
             this.visit.hora_regreso = this.visita.hora_regreso;
             this.visit.localidad = this.visita.localidad;
@@ -178,10 +179,11 @@ export default {
                 return res;
             }, []);
             await this.FCT.addVisit(this.visit, this.fct)
+            this.FCT.enviarMensaje("Visita añadida con éxito.", false);
         } else {
             await this.FCT.updateVisit(this.visita, this.visit, this.fct)
+            this.FCT.enviarMensaje("Visita modificada con éxito.", false);
         }
-        this.FCT.enviarMensaje("Éxito", false);
         this.$router.replace({name: 'visitas', params: this.$route.params});
     }
   }

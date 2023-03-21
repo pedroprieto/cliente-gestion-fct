@@ -6,7 +6,7 @@
   
   <div class="field is-grouped">
     <div class="control">
-      <button @click="volver()" class="button is-link is-light">
+      <button type="button" @click="volver()" class="button is-link is-light">
         <span class="icon">
           <svg-icon class="mdi" type="mdi" :path="mdiArrowLeft"></svg-icon>
         </span>

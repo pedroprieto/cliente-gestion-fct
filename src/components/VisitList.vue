@@ -72,14 +72,14 @@
           {{visit.impresion}}
         </td>
         <td>
-          <button class="button is-primary is-outlined" @click="editarVisita(fct, visit)">
+          <button type="button" class="button is-primary is-outlined" @click="editarVisita(fct, visit)">
             <span class="icon">
               <svg-icon class="mdi" type="mdi" :path="mdiPencil"></svg-icon>
             </span>
           </button>
         </td>
         <td>
-          <button class="button is-danger" @click="borrarVisita(fct, visit)">
+          <button type="button" class="button is-danger" @click="borrarVisita(fct, visit)">
             <span class="icon">
               <svg-icon class="mdi" type="mdi" :path="mdiTrashCanOutline"></svg-icon>
             </span>

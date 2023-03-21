@@ -45,7 +45,10 @@
  <transition name="fade">
   <CompMensaje v-if="FCT.mostrarMensaje"/>
  </transition>
-  <LoadOverlay v-if="FCT.loading"/>
+
+ <transition name="fade" mode="out-in">
+   <LoadOverlay v-if="FCT.loading"/>
+ </transition>
 </template>
 
 <style>
