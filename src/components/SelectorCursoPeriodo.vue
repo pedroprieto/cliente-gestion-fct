@@ -1,20 +1,40 @@
 <template>
-<div>
-  <label for="curso" class="label">Curso</label>
-</div>
-<div class="navbar-item select is-primary">
-  <select v-model="FCT.curso" id="curso" @change="navegar()">
-    <option v-for="curso of cursos" :value="curso" :key="curso">{{curso}}</option>
-  </select>
+<div class="navbar-item ">
+  <div class="field is-horizontal">
+    <div class="field-label is-normal is-hidden-mobile">
+      <label for="curso" class="label">Curso</label>
+    </div>
+    <div class="field-body">
+      <div class="field">
+        <div class="control">
+          <div class="select is-primary is-fullwidth">
+            <select v-model="FCT.curso" id="curso" @change="navegar()">
+              <option v-for="curso of cursos" :value="curso" :key="curso">{{curso}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div>
-  <label for="periodo" class="label">Período</label>
-</div>
-<div class="navbar-item select is-primary">
-  <select v-model="FCT.periodo" id="periodo" @change="navegar()">
-    <option v-for="periodo of periodos" :value="periodo.value" :key="periodo">{{periodo.text}}</option>
-  </select>
+<div class="navbar-item ">
+  <div class="field is-horizontal">
+    <div class="field-label is-normal is-hidden-mobile">
+      <label for="periodo" class="label">Período</label>
+    </div>
+    <div class="field-body">
+      <div class="field">
+        <div class="control">
+          <div class="select is-primary is-fullwidth">
+            <select v-model="FCT.periodo" id="curso" @change="navegar()">
+              <option v-for="periodo of periodos" :value="periodo.value" :key="periodo">{{periodo.text}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 </template>
 
