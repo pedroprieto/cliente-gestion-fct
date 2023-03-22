@@ -170,6 +170,7 @@ export default {
             this.$router.push({name: 'visitas', params: this.$route.params});
         },
         crearVisita: async function () {
+            this.visit.empresa = this.fct.empresa;
             if (!this.tipo) {
                 // TODO: Añadir related. ¿Mejorar?
                 this.visit.related = this.related.reduce((res, r) => {
