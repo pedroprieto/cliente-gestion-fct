@@ -306,17 +306,13 @@ export const gestionFCTStore = defineStore('gestionfct', {
                     return;
                 let tutor = "TUTOR";
                 let ciclo = "CICLO";
-                let empresa = "EMPRESA";
                 if (this.fcts[0]) {
                     tutor = this.fcts[0].tutor;
                     ciclo = this.fcts[0].ciclo;
-                    empresa = this.fcts[0].empresa;
-
                 }
                 doc.setData({
                     tutor,
                     ciclo,
-                    empresa,
                     fm34s: JSON.parse(
                         JSON.stringify(listaFM34s, function (key, value) {
                             if ((key == 'fecha') || (key == 'start') || (key == 'end')) {
