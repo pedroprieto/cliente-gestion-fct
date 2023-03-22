@@ -105,13 +105,11 @@
 
 <script>
 import { gestionFCTStore } from '@/stores/gestionfct'
-import NavBar from '../components/NavBar.vue'
 import TituloPagina from '../components/TituloPagina.vue'
 
 export default {
     props: ['fctId', 'tipo'],
     components: {
-        NavBar,
         TituloPagina
     },
     data() {
