@@ -4,6 +4,9 @@ on:
     branches:
       - master
 
+env:
+  VITE_API_URL: ${{ vars.VITE_API_URL }}
+
 jobs:
   publicar:
     runs-on: ubuntu-latest
@@ -12,8 +15,6 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install and Build
-        with:
-          VITE_API_URL: ${{ vars.VITE_API_URL }}
         run: |
           npm ci
           npm run build
