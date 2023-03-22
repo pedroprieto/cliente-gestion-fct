@@ -130,7 +130,7 @@ export default {
                 hora_regreso: '',
                 localidad: '',
                 impresion: '',
-                presencial:  false
+                presencial: true
             }
         }
     },

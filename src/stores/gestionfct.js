@@ -216,7 +216,6 @@ export const gestionFCTStore = defineStore('gestionfct', {
                     this.loading = false;
                 });
         },
-        // TODO: hacer que servidor devuelva visita con datos correctos tras update y add
         addVisit: function (visitData, fct) {
             let url = fct.hrefVisit;
             this.loading = true;
@@ -224,12 +223,16 @@ export const gestionFCTStore = defineStore('gestionfct', {
                 .then(response => {
                     this.loading = false;
                     if (response.ok) {
-                        // this.visits.push(visitData);
-                        // this.loadVisitsToFCT(fct);
-                        return this.loadFCTs();
+                        return response.json();
                     } else {
                         throw new Error("No se ha podido crear la visita");
                     }
+                }).then(newVisits => {
+                    this.visits.push(...newVisits);
+                    for (let fctId of visitData.related) {
+                        this.loadVisitsToFCT(this.getFCT(fctId));
+                    }
+                    this.loadVisitsToFCT(fct);
                 }).finally(() => {
                     this.loading = false;
                 });
