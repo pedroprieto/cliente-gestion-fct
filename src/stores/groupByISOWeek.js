@@ -36,6 +36,9 @@ Date.prototype.fromWeek = function (w, y) {
 export const groupByISOWeek = function(visits) {
 
     let visitsNoDuplicates = visits.reduce((acc, visit) => {
+        if (!visit.presencial)
+            return acc;
+
         let fecha = new Date(visit.fecha).toISOString().substr(0, 10);
         let clave = `${fecha}-${visit.hora_salida}-${visit.hora_regreso}`;
         let exist = Boolean(acc[clave]);

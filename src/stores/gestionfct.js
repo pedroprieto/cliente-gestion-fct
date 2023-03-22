@@ -194,6 +194,7 @@ export const gestionFCTStore = defineStore('gestionfct', {
                     if (response.ok) {
                         this.visits = this.visits.filter((v) => (v != visit))
                         this.loadVisitsToFCT(fct);
+                        this.getFM34s();
                     } else {
                         throw new Error("No se ha podido borrar la visita");
                     }
@@ -213,6 +214,7 @@ export const gestionFCTStore = defineStore('gestionfct', {
                     if (response.ok) {
                         this.fcts = this.fcts.filter(f => f.id != fct.id);
                         this.visits = this.visits.filter((v) => v.fctId != fct.id)
+                        this.getFM34s();
                     } else {
                         throw new Error("No se ha podido borrar la FCT");
                     }
@@ -237,6 +239,7 @@ export const gestionFCTStore = defineStore('gestionfct', {
                         this.loadVisitsToFCT(this.getFCT(fctId));
                     }
                     this.loadVisitsToFCT(fct);
+                    this.getFM34s();
                 }).finally(() => {
                     this.loading = false;
                 });
@@ -250,6 +253,7 @@ export const gestionFCTStore = defineStore('gestionfct', {
                     if (response.ok) {
                         visita = Object.assign(visita, visitData)
                         this.loadVisitsToFCT(fct);
+                        this.getFM34s();
                     } else {
                         throw new Error("No se ha podido actualizar la visita");
                     }
