@@ -1,6 +1,6 @@
 <template>
   <div class="level">
-    <div class="level-left ">
+    <div class="level-left">
       <div class="level-item">
         <button @click="FCT.importarFCTs()" class="button is-primary">
           <span class="icon">
@@ -68,6 +68,17 @@
     </div>
   </div>
   
+  <div class="box cursorPointer" @click="toggleSelected()">
+    <div class="columns">
+      <div class="column is-narrow">
+        <input type="checkbox" v-model="allSelected" />
+      </div>
+      <div class="column">
+        Seleccionar todas/ninguna
+      </div>
+    </div>
+  </div>
+
   <div @click="selectRow(fct)" class="box cursorPointer" :class="{'is-selected': fct.selected}" v-for="fct of filteredFCTs" :key="fct.id">
     <div class="columns is-multiline is-align-items-center">
       <div class="column cursorPointer is-narrow">
