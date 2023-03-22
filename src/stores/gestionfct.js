@@ -66,8 +66,6 @@ export const gestionFCTStore = defineStore('gestionfct', {
         deleteCredentials: function() {
             sessionStorage.removeItem('user');
             sessionStorage.removeItem('password');
-            this.curso = "";
-            this.periodo = "";
             this.usuario = '';
             this.password = '';
         },

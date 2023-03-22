@@ -1,5 +1,5 @@
 <template>
-  <section class="hero is-primary is-fullheight">
+<section class="hero is-primary is-fullheight">
   <div class="hero-body">
     <div class="container">
       <div class="columns is-centered">
@@ -45,7 +45,6 @@
 </template>
 
 <script setup>
-  import TituloPagina from '../components/TituloPagina.vue'
   import SvgIcon from '@jamescoyle/vue-icon'
   import { mdiAccount } from '@mdi/js'
   import { mdiLock } from '@mdi/js'

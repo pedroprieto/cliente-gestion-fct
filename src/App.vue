@@ -22,13 +22,11 @@
       }
   })
   onBeforeMount(() => {
-      console.log("iniciando");
   })
   watch(
       () => FCT.loginError,
       (loginError) => {
           if (loginError) {
-              console.log('watch');
               router.replace('/login');
           }
       }
