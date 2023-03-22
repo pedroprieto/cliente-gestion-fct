@@ -255,7 +255,7 @@ export const gestionFCTStore = defineStore('gestionfct', {
                 });
         },
         generarCertificados: function (tipo, fct) {
-            let url = `/office_templates/${tipo}.docx`
+            let url = `${import.meta.env.BASE_URL}office_templates/${tipo}.docx`
             var generation_date = new Date().toLocaleDateString('es')
             PizZipUtils.getBinaryContent(url, (err, content) => {
                 const zip = new PizZip(content)
@@ -296,7 +296,7 @@ export const gestionFCTStore = defineStore('gestionfct', {
 
         },
         generarFM34s: function () {
-            let url = `/office_templates/fm34.docx`
+            let url = `${import.meta.env.BASE_URL}office_templates/fm34.docx`
             PizZipUtils.getBinaryContent(url, (err, content) => {
                 const zip = new PizZip(content)
                 const doc = new Docxtemplater(zip, { paragraphLoop: true, linebreaks: true })
