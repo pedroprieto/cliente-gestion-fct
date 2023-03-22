@@ -17,8 +17,8 @@
   }
 
   function logOut() {
-  router.replace({name:'login'});
   FCT.deleteCredentials();
+  router.replace({name:'login'});
   }
 </script>
 

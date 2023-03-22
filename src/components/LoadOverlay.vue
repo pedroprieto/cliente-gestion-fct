@@ -10,22 +10,6 @@
 import { gestionFCTStore } from '@/stores/gestionfct'
 
 export default {
-    created() {
-        setTimeout(() => {
-            this.FCT.resetMensaje();
-            }, this.tiempo_cierre);
-    },
-    data() {
-        return {
-            tiempo_cierre: 3000,
-            FCT: gestionFCTStore(), 
-        }
-    },
-    methods: {
-        cerrarMensaje() {
-            this.FCT.resetMensaje();
-        }
-    }
 }
 </script>
 
