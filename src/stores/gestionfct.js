@@ -134,6 +134,8 @@ export const gestionFCTStore = defineStore('gestionfct', {
                     for (let fct of this.fcts) {
                         this.loadVisitsToFCT(fct);
                     }
+                    // Generar FM34s
+                    this.getFM34s();
                 }).catch(error => {
                     if (error.cause == 'auth') {
                         this.deleteCredentials();
@@ -293,8 +295,6 @@ export const gestionFCTStore = defineStore('gestionfct', {
             this.fm34s = Object.entries(groups).map(([clave, data]) => {
                 return data;
             });
-            return this.fm34s;
-
         },
         generarFM34s: function () {
             let url = `${import.meta.env.BASE_URL}office_templates/fm34.docx`
