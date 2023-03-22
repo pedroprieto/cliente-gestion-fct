@@ -36,7 +36,8 @@ export const gestionFCTStore = defineStore('gestionfct', {
             });
         },
         request(url, method, body) {
-            let fullUrl = `http://localhost:3000${url}`;
+            let fullUrl = `${import.meta.env.VITE_API_URL}${url}`;
+
             let headers = new Headers();
             headers.set('Authorization', 'Basic ' + btoa(this.usuario + ":" + this.password));
             headers.set('Content-Type', 'application/json');
