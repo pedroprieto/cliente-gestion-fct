@@ -4,6 +4,7 @@ import PizZip from 'pizzip'
 import PizZipUtils from 'pizzip/utils/index.js'
 import { saveAs } from 'file-saver'
 import { groupByISOWeek } from './groupByISOWeek.js'
+import { CP } from '../aux/cursoperiodo.js'
 
 export const gestionFCTStore = defineStore('gestionfct', {
     state: () => {
@@ -74,7 +75,7 @@ export const gestionFCTStore = defineStore('gestionfct', {
             return this.usuario;
         },
         importarFCTs: function() {
-            if (!confirm(`¿Desea realizar la importación de las FCTs del curso ${this.curso}, período ${this.periodo}?`))
+            if (!confirm(`¿Desea importar las FCTs del curso ${this.curso}, período ${CP.getPeriodoFromCode(this.periodo).text}?`))
                 return;
             let url = `/api/users/${this.usuario}/import_fcts`;
             let data = {
