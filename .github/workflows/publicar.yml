@@ -16,6 +16,7 @@ jobs:
           npm ci
           npm run build
           echo $VITE_API_URL
+          echo "hola"
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
