@@ -1,11 +1,11 @@
 <template>
 <div class="panel">
-  <div class="panel-block">
+  <div class="panel-block" v-if="this.FCT.fm34s.length > 0">
     <button :disabled="!anySelected" @click="FCT.generarFM34s()" class="button is-primary">
       Generar
     </button>
   </div>
-  <label class="panel-block has-text-weight-bold is-underlined">
+  <label v-if="this.FCT.fm34s.length > 1" class="panel-block has-text-weight-bold is-underlined">
     <input type="checkbox" @click="toggleSelected()" v-model="allSelected" />
     Seleccionar todos / ninguno
     <hr />

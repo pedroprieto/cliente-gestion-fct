@@ -68,7 +68,7 @@
     </div>
   </div>
   
-  <div class="box cursorPointer" @click="toggleSelected()">
+  <div class="box cursorPointer" @click="toggleSelected()" v-if="this.FCT.fcts.length > 1">
     <div class="columns">
       <div class="column is-narrow">
         <input type="checkbox" v-model="allSelected" />
