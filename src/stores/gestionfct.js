@@ -90,7 +90,7 @@ export const gestionFCTStore = defineStore('gestionfct', {
                         this.enviarMensaje('Importación realizada con éxito!', false);
                         return this.loadFCTs();
                     } else if (response.status == 404) {
-                        this.enviarMensaje(`No se han encontrado FCTs en el curso ${this.curso}, perídodo ${this.periodo}. Comprueba que existen en el SAO en el período correspondiente.`, false);
+                        this.enviarMensaje(`No se han encontrado FCTs en el curso ${this.curso}, perídodo ${CP.getPeriodoFromCode(this.periodo).text}. Comprueba que existen en el SAO en el período correspondiente.`, false);
                     } else {
                         throw new Error("Ha ocurrido un error. Por favor, inténtelo de nuevo.");
                     }
