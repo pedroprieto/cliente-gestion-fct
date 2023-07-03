@@ -61,8 +61,8 @@ export const CP = {
                 value = 6;
             } else {
                 value = 5;
-                return this.getperiodoslist().find(p => p.value == value);
             }
+            return this.getperiodoslist().find(p => p.value == value);
         },
         getPeriodoFromCode: function (codigo) {
             return this.getperiodoslist().find(function (el) {
