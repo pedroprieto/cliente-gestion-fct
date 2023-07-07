@@ -13,7 +13,7 @@ export const CP = {
                 cps.push(valor)
             }
 
-            if (mes_actual >= 7) {
+            if (mes_actual > 7) {
 
                 let valor = (curso_final) + '-' + (curso_final + 1);
                 cps.push(valor)
@@ -46,7 +46,7 @@ export const CP = {
             var curso_final = now.getFullYear();
             var mes_actual = now.getMonth() + 1;
 
-            if (mes_actual >= 7) {
+            if (mes_actual > 7) {
                 return (curso_final) + '-' + (curso_final + 1);
             } else {
                 return (curso_final - 1) + '-' + (curso_final);
@@ -57,7 +57,7 @@ export const CP = {
             var mes_actual = now.getMonth() + 1;
             let value;
 
-            if (mes_actual >= 7) {
+            if (mes_actual > 7) {
                 value = 6;
             } else {
                 value = 5;
