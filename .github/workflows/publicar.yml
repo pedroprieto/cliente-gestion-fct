@@ -22,7 +22,7 @@ env:
   VITE_API_URL: ${{ vars.VITE_API_URL }}
 
 jobs:
-  publicar:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
