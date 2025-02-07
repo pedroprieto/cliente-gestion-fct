@@ -265,7 +265,7 @@ export const gestionFCTStore = defineStore('gestionfct', {
         },
         generarCertificados: function (tipo, fct) {
             let url = `${import.meta.env.BASE_URL}office_templates/${tipo}.docx`
-            var generation_date = new Date().toLocaleDateString('es')
+            var generation_date = new Date().toLocaleDateString('es', {dateStyle: "long"})
             PizZipUtils.getBinaryContent(url, (err, content) => {
                 const zip = new PizZip(content)
                 const doc = new Docxtemplater(zip, { paragraphLoop: true, linebreaks: true })
