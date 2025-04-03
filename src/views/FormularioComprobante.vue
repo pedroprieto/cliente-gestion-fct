@@ -62,7 +62,7 @@ export default {
     },
     subirTicket: async function (event) {
       try {
-        await this.FCT.uploadFile(this.url, this.archivo, this.visita.href)
+        await this.FCT.uploadFile(this.url, this.archivo, this.visita)
         this.FCT.enviarMensaje('Fichero subido con éxito.', false)
         this.$router.replace({ name: 'visitas', params: this.$route.params })
       } catch {

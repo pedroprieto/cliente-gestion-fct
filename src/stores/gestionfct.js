@@ -53,15 +53,29 @@ export const gestionFCTStore = defineStore('gestionfct', {
       // window.open(url2, '_blank')
       // URL.revokeObjectURL(url2)
     },
-    async uploadFile(url, file, visitUrl) {
-      await fetch(url, {
+    async uploadFile(url, file, visita) {
+      this.loading = true
+      return fetch(url, {
         method: 'PUT',
         body: file,
         headers: {
           'Content-Type': file.type
         }
       })
-      return this.request(visitUrl + '/ticket', 'PUT')
+        .then((response) => {
+          return this.request(visita.href + '/ticket', 'PUT')
+        })
+        .then((response) => {
+          this.loading = false
+          if (response.ok) {
+            visita.comprobante = true
+          } else {
+            throw new Error('No se ha podido subir el archivo')
+          }
+        })
+        .finally(() => {
+          this.loading = false
+        })
     },
     resetSeleccion() {
       this.fcts.forEach((fct) => {
