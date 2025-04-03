@@ -26,6 +26,35 @@ export const gestionFCTStore = defineStore('gestionfct', {
     }
   },
   actions: {
+    getTicket(fctId, visit) {
+      let url = visit.href + '/ticket'
+      return this.request(url, 'GET').then((response) => {
+        return response.text()
+      })
+    },
+    getTicketGet(fctId, visit) {
+      let url = visit.href + '/ticketGet'
+      return this.request(url, 'GET').then((response) => {
+        return response.text()
+      })
+    },
+    async downloadFile(url) {
+      let resp = await fetch(url)
+      let blob = await resp.blob()
+      let url2 = await URL.createObjectURL(blob)
+      window.open(url, '_blank')
+      URL.revokeObjectURL(url2)
+    },
+    async uploadFile(url, file, visitUrl) {
+      await fetch(url, {
+        method: 'PUT',
+        body: file,
+        headers: {
+          'Content-Type': file.type
+        }
+      })
+      return this.request(visitUrl + '/ticket', 'PUT')
+    },
     resetSeleccion() {
       this.fcts.forEach((fct) => {
         fct.selected = false

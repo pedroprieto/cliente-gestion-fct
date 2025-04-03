@@ -16,6 +16,7 @@ const rutas = router
       route.name != 'login' &&
       route.name != 'anyadirVisita' &&
       route.name != 'editarVisita' &&
+      route.name != 'subirComprobante' &&
       route.name != 'visitas' &&
       route.name != 'etiquetas' &&
       route.name != 'root'

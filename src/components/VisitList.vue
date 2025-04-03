@@ -31,8 +31,16 @@
       <div class="column is-1">
         <abbr title="Presencial">Pres.</abbr> <b>{{ visit.presencial ? 'Sí' : 'No' }}</b>
       </div>
-      <div class="column is-10">
+      <div class="column is-8">
         <abbr title="Impresión">Imp.</abbr> <b>{{ visit.impresion }}</b>
+      </div>
+      <div class="column is-2">
+        <abbr title="Comprobante">Comp.</abbr>
+        <a @click="obtenerComprobante(visit)" class="href">
+          <span class="icon">
+            <svg-icon class="mdi" type="mdi" :path="mdiDownloadBox"></svg-icon>
+          </span>
+        </a>
       </div>
       <div class="column is-2">
         <div class="buttons is-justify-content-flex-end">
@@ -44,6 +52,16 @@
           >
             <span class="icon">
               <svg-icon class="mdi" type="mdi" :path="mdiPencil"></svg-icon>
+            </span>
+          </button>
+          <button
+            title="Subir comprobante"
+            type="button"
+            class="button is-secondary is-outlined"
+            @click="subirComprobante(fct, visit)"
+          >
+            <span class="icon">
+              <svg-icon class="mdi" type="mdi" :path="mdiFile"></svg-icon>
             </span>
           </button>
           <button
@@ -144,7 +162,7 @@
 <script>
 import { gestionFCTStore } from '@/stores/gestionfct'
 import SvgIcon from '@jamescoyle/vue-icon'
-import { mdiTrashCanOutline, mdiPencil, mdiPlus } from '@mdi/js'
+import { mdiTrashCanOutline, mdiPencil, mdiPlus, mdiFile, mdiDownloadBox } from '@mdi/js'
 
 export default {
   props: ['fct'],
@@ -155,16 +173,28 @@ export default {
     return {
       mdiTrashCanOutline,
       mdiPencil,
+      mdiDownloadBox,
       mdiPlus,
+      mdiFile,
       FCT: gestionFCTStore()
     }
   },
   methods: {
+    async obtenerComprobante(visit) {
+      let url = await this.FCT.getTicketGet(visit.fctId, visit)
+      await this.FCT.downloadFile(url)
+    },
     addVisita: function (fct) {
       this.$router.push({ name: 'anyadirVisita', params: { fctId: fct.id } })
     },
     editarVisita: function (fct, visita) {
       this.$router.push({ name: 'editarVisita', params: { fctId: fct.id, tipo: visita.tipo } })
+    },
+    subirComprobante: function (fct, visita) {
+      this.$router.push({
+        name: 'subirComprobante',
+        params: { fctId: fct.id, tipo: visita.tipo }
+      })
     },
     borrarVisita: async function (fct, visita) {
       if (confirm('¿Desea eliminar la visita?')) {

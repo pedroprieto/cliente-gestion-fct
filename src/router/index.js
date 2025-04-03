@@ -5,6 +5,7 @@ import FM34View from '../views/FM34View.vue'
 import LoginView from '../views/LoginView.vue'
 import EtiquetasView from '../views/EtiquetasView.vue'
 import FormularioVisita from '../views/FormularioVisita.vue'
+import FormularioComprobante from '../views/FormularioComprobante.vue'
 import { CP } from '../aux/cursoperiodo'
 
 const router = createRouter({
@@ -46,6 +47,12 @@ const router = createRouter({
       name: 'editarVisita',
       path: '/api/users/fcts/items/:curso/:periodo/fcts/:fctId/editarVisita/:tipo',
       component: FormularioVisita,
+      props: true
+    },
+    {
+      name: 'subirComprobante',
+      path: '/api/users/fcts/items/:curso/:periodo/fcts/:fctId/subirComprobante/:tipo',
+      component: FormularioComprobante,
       props: true
     },
     {
