@@ -271,6 +271,7 @@ export const gestionFCTStore = defineStore('gestionfct', {
           }
         })
         .finally(() => {
+          this.calcularKMsVisitas()
           this.loading = false
         })
     },
@@ -316,6 +317,7 @@ export const gestionFCTStore = defineStore('gestionfct', {
           this.getFM34s()
         })
         .finally(() => {
+          this.calcularKMsVisitas()
           this.loading = false
         })
     },
@@ -334,6 +336,7 @@ export const gestionFCTStore = defineStore('gestionfct', {
           }
         })
         .finally(() => {
+          this.calcularKMsVisitas()
           this.loading = false
         })
     },
