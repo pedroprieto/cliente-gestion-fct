@@ -5,7 +5,7 @@ import FM34View from '../views/FM34View.vue'
 import LoginView from '../views/LoginView.vue'
 import EtiquetasView from '../views/EtiquetasView.vue'
 import FormularioVisita from '../views/FormularioVisita.vue'
-import { CP } from '../aux/cursoperiodo';
+import { CP } from '../aux/cursoperiodo'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -13,13 +13,16 @@ const router = createRouter({
     {
       path: '/',
       name: 'root',
-      redirect: {name: 'fcts', params: {curso: CP.getCursoActual(),  periodo: CP.getPeriodoActual().value}}
+      redirect: {
+        name: 'fcts',
+        params: { curso: CP.getCursoActual(), periodo: CP.getPeriodoActual().value }
+      }
     },
     {
       path: '/api/users/fcts/items/:curso/:periodo/fcts',
       name: 'fcts',
       meta: {
-        prompt: "Lista de FCTs",
+        prompt: 'Lista de FCTs'
       },
       component: ListFCTView,
       props: true
@@ -28,7 +31,7 @@ const router = createRouter({
       path: '/api/users/fcts/items/:curso/:periodo/fcts/:fctId',
       name: 'visitas',
       meta: {
-        prompt: "Lista de Visitas",
+        prompt: 'Lista de Visitas'
       },
       component: ListVisitView,
       props: true
@@ -45,33 +48,33 @@ const router = createRouter({
       component: FormularioVisita,
       props: true
     },
-      {
+    {
       path: '/api/users/fcts/items/:curso/:periodo/fm34s',
       name: 'fm34s',
-        meta: {
-            prompt: "FM34",
-        },
+      meta: {
+        prompt: 'FM34'
+      },
       component: FM34View,
       props: true
     },
-      {
+    {
       path: '/api/users/fcts/items/:curso/:periodo/etiquetas',
       name: 'etiquetas',
-        meta: {
-            prompt: "Etiquetas",
-        },
+      meta: {
+        prompt: 'Etiquetas'
+      },
       component: EtiquetasView,
       props: true
     },
     {
-        path: '/login',
+      path: '/login',
       name: 'login',
-        meta: {
-            prompt: "Login",
-        },
+      meta: {
+        prompt: 'Login'
+      },
       component: LoginView,
-        props: route => ({  })
-    },
+      props: (route) => ({})
+    }
   ]
 })
 
