@@ -200,8 +200,8 @@ export const gestionFCTStore = defineStore('gestionfct', {
       fct.visita_fin = fct.visitas.find((v) => v.tipo == 'final')
       fct.visita_adicional = fct.visitas.filter((v) => v.tipo == 'adicional')
     },
-    getVisit: function (fctId, tipo) {
-      return this.visits.find((v) => v.fctId == fctId && v.tipo == tipo)
+    getVisit: function (fctId, visitaId) {
+      return this.visits.find((v) => v.fctId == fctId && v.visitaId == visitaId)
     },
     getFCT: function (fctId) {
       return this.fcts.find((f) => f.id == fctId)

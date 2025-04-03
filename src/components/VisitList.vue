@@ -188,12 +188,15 @@ export default {
       this.$router.push({ name: 'anyadirVisita', params: { fctId: fct.id } })
     },
     editarVisita: function (fct, visita) {
-      this.$router.push({ name: 'editarVisita', params: { fctId: fct.id, tipo: visita.tipo } })
+      this.$router.push({
+        name: 'editarVisita',
+        params: { fctId: fct.id, visitaId: visita.visitaId }
+      })
     },
     subirComprobante: function (fct, visita) {
       this.$router.push({
         name: 'subirComprobante',
-        params: { fctId: fct.id, tipo: visita.tipo }
+        params: { fctId: fct.id, visitaId: visita.visitaId }
       })
     },
     borrarVisita: async function (fct, visita) {

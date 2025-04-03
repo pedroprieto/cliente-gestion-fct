@@ -45,13 +45,13 @@ const router = createRouter({
     },
     {
       name: 'editarVisita',
-      path: '/api/users/fcts/items/:curso/:periodo/fcts/:fctId/editarVisita/:tipo',
+      path: '/api/users/fcts/items/:curso/:periodo/fcts/:fctId/editarVisita/:visitaId',
       component: FormularioVisita,
       props: true
     },
     {
       name: 'subirComprobante',
-      path: '/api/users/fcts/items/:curso/:periodo/fcts/:fctId/subirComprobante/:tipo',
+      path: '/api/users/fcts/items/:curso/:periodo/fcts/:fctId/subirComprobante/:visitaId',
       component: FormularioComprobante,
       props: true
     },

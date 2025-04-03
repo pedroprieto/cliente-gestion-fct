@@ -10,7 +10,7 @@
           @change="cargarEmpresasRelacionadas()"
           v-model="visit.tipo"
           id="tipo"
-          :disabled="tipo"
+          :disabled="visitaId"
           required
         >
           <option v-for="tipo of tipos" :value="tipo" :key="tipo">{{ tipo }}</option>
@@ -137,7 +137,7 @@ import { gestionFCTStore } from '@/stores/gestionfct'
 import TituloPagina from '../components/TituloPagina.vue'
 
 export default {
-  props: ['fctId', 'tipo'],
+  props: ['fctId', 'visitaId'],
   components: {
     TituloPagina
   },
@@ -164,10 +164,10 @@ export default {
   async created() {
     this.fct = this.FCT.getFCT(this.fctId)
 
-    if (this.tipo) {
+    if (this.visitaId) {
       // Editando
-      this.titulo = `Editando visita ${this.tipo} en: ${this.fct.empresa} - ${this.fct.alumno}`
-      this.visita = this.FCT.getVisit(this.fctId, this.tipo)
+      this.visita = this.FCT.getVisit(this.fctId, this.visitaId)
+      this.titulo = `Editando visita ${this.visita.tipo} en: ${this.fct.empresa} - ${this.fct.alumno}`
       this.visit.tipo = this.visita.tipo
       this.visit.fecha = this.visita.fecha
       this.visit.distancia = this.visita.distancia
@@ -199,7 +199,7 @@ export default {
     },
     crearVisita: async function () {
       this.visit.empresa = this.fct.empresa
-      if (!this.tipo) {
+      if (!this.visitaId) {
         // TODO: Añadir related. ¿Mejorar?
         this.visit.related = this.related.reduce((res, r) => {
           if (r.selected) {

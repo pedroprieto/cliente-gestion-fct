@@ -28,7 +28,7 @@ import { gestionFCTStore } from '@/stores/gestionfct'
 import TituloPagina from '../components/TituloPagina.vue'
 
 export default {
-  props: ['fctId', 'tipo'],
+  props: ['fctId', 'visitaId'],
   components: {
     TituloPagina
   },
@@ -45,7 +45,7 @@ export default {
   async created() {
     this.titulo = 'Subir comprobante'
     this.fct = this.FCT.getFCT(this.fctId)
-    this.visita = this.FCT.getVisit(this.fctId, this.tipo)
+    this.visita = this.FCT.getVisit(this.fctId, this.visitaId)
   },
   methods: {
     cancelarEdicion: function () {
