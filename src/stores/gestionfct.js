@@ -38,12 +38,20 @@ export const gestionFCTStore = defineStore('gestionfct', {
         return response.text()
       })
     },
-    async downloadFile(url) {
+    async downloadFile(url, visit) {
       let resp = await fetch(url)
       let blob = await resp.blob()
       let url2 = await URL.createObjectURL(blob)
-      window.open(url, '_blank')
-      URL.revokeObjectURL(url2)
+      var link = document.createElement('a')
+      link.download = `${visit.fecha}-${visit.hora_regreso}-${visit.empresa.replace(
+        /[,.:; ]/g,
+        ''
+      )}-${visit.tipo}.${blob.extension}`
+      link.href = url2
+      link.target = '_blank'
+      link.click()
+      // window.open(url2, '_blank')
+      // URL.revokeObjectURL(url2)
     },
     async uploadFile(url, file, visitUrl) {
       await fetch(url, {

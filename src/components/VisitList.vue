@@ -31,18 +31,10 @@
       <div class="column is-1">
         <abbr title="Presencial">Pres.</abbr> <b>{{ visit.presencial ? 'Sí' : 'No' }}</b>
       </div>
-      <div class="column is-8">
+      <div class="column is-9">
         <abbr title="Impresión">Imp.</abbr> <b>{{ visit.impresion }}</b>
       </div>
-      <div class="column is-2">
-        <abbr title="Comprobante">Comp.</abbr>
-        <a @click="obtenerComprobante(visit)" class="href">
-          <span class="icon">
-            <svg-icon class="mdi" type="mdi" :path="mdiDownloadBox"></svg-icon>
-          </span>
-        </a>
-      </div>
-      <div class="column is-2">
+      <div class="column is-3">
         <div class="buttons is-justify-content-flex-end">
           <button
             title="Editar"
@@ -57,11 +49,22 @@
           <button
             title="Subir comprobante"
             type="button"
-            class="button is-secondary is-outlined"
+            class="button is-info"
             @click="subirComprobante(fct, visit)"
           >
             <span class="icon">
-              <svg-icon class="mdi" type="mdi" :path="mdiFile"></svg-icon>
+              <svg-icon class="mdi" type="mdi" :path="mdiFileUpload"></svg-icon>
+            </span>
+          </button>
+          <button
+            title="Descargar comprobante"
+            type="button"
+            class="button is-secondary"
+            :disabled="!visit.comprobante"
+            @click="obtenerComprobante(visit)"
+          >
+            <span class="icon">
+              <svg-icon class="mdi" type="mdi" :path="mdiFileDownload"></svg-icon>
             </span>
           </button>
           <button
@@ -162,7 +165,14 @@
 <script>
 import { gestionFCTStore } from '@/stores/gestionfct'
 import SvgIcon from '@jamescoyle/vue-icon'
-import { mdiTrashCanOutline, mdiPencil, mdiPlus, mdiFile, mdiDownloadBox } from '@mdi/js'
+import {
+  mdiTrashCanOutline,
+  mdiPencil,
+  mdiPlus,
+  mdiFileUpload,
+  mdiFileDownload,
+  mdiDownloadBox
+} from '@mdi/js'
 
 export default {
   props: ['fct'],
@@ -175,14 +185,15 @@ export default {
       mdiPencil,
       mdiDownloadBox,
       mdiPlus,
-      mdiFile,
+      mdiFileUpload,
+      mdiFileDownload,
       FCT: gestionFCTStore()
     }
   },
   methods: {
     async obtenerComprobante(visit) {
       let url = await this.FCT.getTicketGet(visit.fctId, visit)
-      await this.FCT.downloadFile(url)
+      await this.FCT.downloadFile(url, visit)
     },
     addVisita: function (fct) {
       this.$router.push({ name: 'anyadirVisita', params: { fctId: fct.id } })
