@@ -46,7 +46,6 @@ export default {
     this.titulo = 'Subir comprobante'
     this.fct = this.FCT.getFCT(this.fctId)
     this.visita = this.FCT.getVisit(this.fctId, this.tipo)
-    this.url = await this.FCT.getTicket(this.fctId, this.visita)
   },
   methods: {
     cancelarEdicion: function () {
@@ -55,6 +54,8 @@ export default {
     actualizarFichero: async function (event) {
       try {
         this.archivo = event.target.files[0]
+        this.url = await this.FCT.getTicket(this.fctId, this.visita, this.archivo.type)
+        // let extension = this.archivo.split('.').pop();
       } catch {
         this.FCT.enviarMensaje('Error al subir el fichero.', true)
       }

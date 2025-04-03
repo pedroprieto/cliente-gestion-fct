@@ -26,8 +26,8 @@ export const gestionFCTStore = defineStore('gestionfct', {
     }
   },
   actions: {
-    getTicket(fctId, visit) {
-      let url = visit.href + '/ticket'
+    getTicket(fctId, visit, type) {
+      let url = `${visit.href}/ticket?type=${type}`
       return this.request(url, 'GET').then((response) => {
         return response.text()
       })
