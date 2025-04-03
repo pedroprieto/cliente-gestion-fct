@@ -9,6 +9,7 @@ import { CP } from '../aux/cursoperiodo.js'
 export const gestionFCTStore = defineStore('gestionfct', {
   state: () => {
     return {
+      kmsvisitas: 0,
       formActive: false,
       editingItem: null,
       loginError: false,
@@ -168,6 +169,11 @@ export const gestionFCTStore = defineStore('gestionfct', {
           this.loading = false
         })
     },
+    calcularKMsVisitas() {
+      this.kmsvisitas = this.visits.reduce((acc, visita) => {
+        return acc + visita.distancia
+      }, 0)
+    },
     loadFCTs: function () {
       console.log('loading FCTs')
       this.loading = true
@@ -197,6 +203,7 @@ export const gestionFCTStore = defineStore('gestionfct', {
               this.visits.push(item)
             }
           })
+          this.calcularKMsVisitas()
           for (let fct of this.fcts) {
             this.loadVisitsToFCT(fct)
           }
