@@ -293,6 +293,7 @@ export const gestionFCTStore = defineStore('gestionfct', {
           }
         })
         .finally(() => {
+          this.calcularKMsVisitas()
           this.loading = false
         })
     },
