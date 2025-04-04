@@ -1,6 +1,6 @@
 <template>
   <div class="box">
-    <div class="level">
+    <div class="level is-size-4">
       <div class="level-item has-text-centered">
         Distancia total:
         <span class="has-text-weight-bold">{{ FCT.kmsvisitas.kms }} km</span>
