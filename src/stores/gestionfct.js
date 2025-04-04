@@ -9,7 +9,7 @@ import { CP } from '../aux/cursoperiodo.js'
 export const gestionFCTStore = defineStore('gestionfct', {
   state: () => {
     return {
-      kmsvisitas: 0,
+      kmsvisitas: { kms: 0, importe: 0 },
       formActive: false,
       editingItem: null,
       loginError: false,
@@ -64,12 +64,13 @@ export const gestionFCTStore = defineStore('gestionfct', {
         }
       })
         .then((response) => {
-          return this.request(visita.href + '/ticket', 'PUT')
+          return this.request(visita.href + '/ticket', 'PUT', { importe: visita.importe })
         })
         .then((response) => {
           this.loading = false
           if (response.ok) {
             visita.comprobante = true
+            this.calcularKMsVisitas()
           } else {
             throw new Error('No se ha podido subir el archivo')
           }
@@ -170,9 +171,14 @@ export const gestionFCTStore = defineStore('gestionfct', {
         })
     },
     calcularKMsVisitas() {
-      this.kmsvisitas = this.visits.reduce((acc, visita) => {
-        return acc + visita.distancia
-      }, 0)
+      this.kmsvisitas = this.visits.reduce(
+        (acc, visita) => {
+          acc.kms += visita.distancia
+          if (!isNaN(visita.importe)) acc.importe += parseFloat(visita.importe)
+          return acc
+        },
+        { kms: 0, importe: 0 }
+      )
     },
     loadFCTs: function () {
       console.log('loading FCTs')

@@ -66,6 +66,7 @@
             <span class="icon">
               <svg-icon class="mdi" type="mdi" :path="mdiFileDownload"></svg-icon>
             </span>
+            <span v-if="visit.comprobante">{{ visit.importe }} €</span>
           </button>
           <button
             title="Borrar"

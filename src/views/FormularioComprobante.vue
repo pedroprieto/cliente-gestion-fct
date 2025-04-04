@@ -3,6 +3,20 @@
     <TituloPagina :titulo="titulo" />
     <form @submit.prevent="subirTicket()">
       <div class="field">
+        <label for="importe" class="label">Importe</label>
+        <div class="control">
+          <input
+            required
+            v-model="visita.importe"
+            id="importe"
+            class="input"
+            type="number"
+            step=".01"
+            placeholder=""
+          />
+        </div>
+      </div>
+      <div class="field">
         <label for="comprobante" class="label">Comprobante</label>
         <div class="control">
           <input required @change="actualizarFichero" type="file" id="comprobante" />

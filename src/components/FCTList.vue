@@ -1,9 +1,13 @@
 <template>
   <div class="box">
-    <div class="columns">
-      <div class="column is-size-4 has-text-right">
-        Kilómetros totales:
-        <span class="has-text-weight-bold">{{ FCT.kmsvisitas }} </span>
+    <div class="level">
+      <div class="level-item has-text-centered">
+        Distancia total:
+        <span class="has-text-weight-bold">{{ FCT.kmsvisitas.kms }} km</span>
+      </div>
+      <div class="level-item has-text-centered">
+        Importe total:
+        <span class="has-text-weight-bold">{{ FCT.kmsvisitas.importe.toFixed(2) }} €</span>
       </div>
     </div>
   </div>
