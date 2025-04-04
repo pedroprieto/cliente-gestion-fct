@@ -10,6 +10,12 @@
           </span>
           <span>Actualizar</span>
         </button>
+        <button @click="descargarCSV()" class="button is-secondary is-centered">
+          <span class="icon">
+            <svg-icon class="mdi" type="mdi" :path="mdiFileExcel"></svg-icon>
+          </span>
+          <span>Descargar hoja de cálculo</span>
+        </button>
       </div>
       <table class="table is-striped is-fullwidth">
         <thead>
@@ -38,8 +44,9 @@
 <script setup>
 import TituloPagina from '../components/TituloPagina.vue'
 import { gestionFCTStore } from '@/stores/gestionfct'
+import { CP } from '../aux/cursoperiodo.js'
 
-import { mdiRefresh } from '@mdi/js'
+import { mdiRefresh, mdiFileExcel } from '@mdi/js'
 import SvgIcon from '@jamescoyle/vue-icon'
 
 let FCT = gestionFCTStore()
@@ -50,6 +57,22 @@ function actualizar() {
   FCT.getKmsVisitas().finally(() => {
     FCT.loading = false
   })
+}
+
+async function descargarCSV() {
+  let csvContent = 'data:text/csv;charset=utf-8,'
+
+  FCT.listadoKmsImportes.forEach(function (rowData) {
+    let row = `${rowData.usuario},${rowData.kms},${rowData.importe}`
+    csvContent += row + '\r\n'
+  })
+
+  var encodedUri = encodeURI(csvContent)
+  var link = document.createElement('a')
+  link.download = `${FCT.curso}_${CP.getPeriodoFromCode(FCT.periodo).text}_kms_importes.csv`
+  link.href = encodedUri
+  link.target = '_blank'
+  link.click()
 }
 
 //          await FCT.getKmsVisitas();
