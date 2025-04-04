@@ -10,6 +10,7 @@ export const gestionFCTStore = defineStore('gestionfct', {
   state: () => {
     return {
       kmsvisitas: { kms: 0, importe: 0 },
+      listadoKmsImportes: [],
       formActive: false,
       editingItem: null,
       loginError: false,
@@ -179,6 +180,18 @@ export const gestionFCTStore = defineStore('gestionfct', {
         },
         { kms: 0, importe: 0 }
       )
+      let url = `/api/users/${this.usuario}/kmsimporte/${this.curso}/${this.periodo}`
+      this.request(url, 'PUT', this.kmsvisitas)
+    },
+    async getKmsVisitas() {
+      let url = `/api/kmsimporte/${this.curso}/${this.periodo}`
+      this.request(url, 'GET')
+        .then((response) => {
+          return response.json()
+        })
+        .then((datos) => {
+          this.listadoKmsImportes = datos
+        })
     },
     loadFCTs: function () {
       console.log('loading FCTs')

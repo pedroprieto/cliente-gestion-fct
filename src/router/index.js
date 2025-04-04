@@ -6,6 +6,7 @@ import LoginView from '../views/LoginView.vue'
 import EtiquetasView from '../views/EtiquetasView.vue'
 import FormularioVisita from '../views/FormularioVisita.vue'
 import FormularioComprobante from '../views/FormularioComprobante.vue'
+import ListadoKmsImporte from '../views/ListadoKmsImporte.vue'
 import { CP } from '../aux/cursoperiodo'
 
 const router = createRouter({
@@ -53,6 +54,15 @@ const router = createRouter({
       name: 'subirComprobante',
       path: '/api/users/fcts/items/:curso/:periodo/fcts/:fctId/subirComprobante/:visitaId',
       component: FormularioComprobante,
+      props: true
+    },
+    {
+      name: 'verKmsImporte',
+      meta: {
+        prompt: 'Kms-€'
+      },
+      path: '/api/kmsimporte/:curso/:periodo',
+      component: ListadoKmsImporte,
       props: true
     },
     {

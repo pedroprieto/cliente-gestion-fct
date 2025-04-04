@@ -19,6 +19,7 @@
           FCT.curso = to.params.curso;
           FCT.periodo = to.params.periodo;
           await FCT.loadFCTs();
+          await FCT.getKmsVisitas();
       }
   })
   onBeforeMount(() => {
