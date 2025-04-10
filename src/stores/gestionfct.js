@@ -174,6 +174,7 @@ export const gestionFCTStore = defineStore('gestionfct', {
     calcularKMsVisitas() {
       this.kmsvisitas = this.visits.reduce(
         (acc, visita) => {
+          if (!visita.presencial) return acc
           acc.kms += visita.distancia
           if (!isNaN(visita.importe)) acc.importe += parseFloat(visita.importe)
           return acc
