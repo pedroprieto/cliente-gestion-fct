@@ -14,7 +14,7 @@
   <div class="level">
     <div class="level-left">
       <div class="level-item">
-        <button @click="FCT.importarFCTs()" class="button is-primary">
+        <button @click="importarFCTs()" class="button is-primary">
           <span class="icon">
             <svg-icon class="mdi" type="mdi" :path="mdiDownload"></svg-icon>
           </span>
@@ -382,6 +382,7 @@ export default {
   },
   methods: {
     matchQuery: function (str) {
+      if (!str || !(str instanceof String)) return str
       return str
         .normalize('NFD')
         .replace(/[\u0300-\u036f]/g, '')
@@ -418,6 +419,9 @@ export default {
     },
     mostrarVisitas: function (fct) {
       this.$router.push({ name: 'visitas', params: { fctId: fct.id } })
+    },
+    importarFCTs: function (fct) {
+      this.$router.push({ name: 'importar' })
     },
     borrarFCT: async function (fct) {
       if (confirm('¿Desea eliminar la FCT? Se borrarán también las visitas asociadas.')) {

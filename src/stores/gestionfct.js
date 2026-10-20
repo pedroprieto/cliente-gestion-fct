@@ -28,6 +28,9 @@ export const gestionFCTStore = defineStore('gestionfct', {
     }
   },
   actions: {
+    getPeriodoText() {
+      return CP.getPeriodoFromCode(this.periodo).text
+    },
     getTicket(fctId, visit, type) {
       let url = `${visit.href}/ticket?type=${type}`
       return this.request(url, 'GET').then((response) => {
@@ -127,19 +130,12 @@ export const gestionFCTStore = defineStore('gestionfct', {
     checkLogin: function () {
       return this.usuario
     },
-    importarFCTs: function () {
-      if (
-        !confirm(
-          `¿Desea importar las FCTs del curso ${this.curso}, período ${
-            CP.getPeriodoFromCode(this.periodo).text
-          }?`
-        )
-      )
-        return
+    importarFCTs: function (listFEs) {
       let url = `/api/users/${this.usuario}/import_fcts`
       let data = {
         curso: this.curso,
-        periodo: this.periodo
+        periodo: this.periodo,
+        listFEs: listFEs
       }
       this.loading = true
       return this.request(url, 'POST', data)
@@ -150,9 +146,9 @@ export const gestionFCTStore = defineStore('gestionfct', {
             return this.loadFCTs()
           } else if (response.status == 404) {
             this.enviarMensaje(
-              `No se han encontrado FCTs en el curso ${this.curso}, perídodo ${
+              `Ha ocurrido un error al importar las FE del curso ${this.curso}, perídodo ${
                 CP.getPeriodoFromCode(this.periodo).text
-              }. Comprueba que existen en el SAO en el período correspondiente.`,
+              }. Comprueba que has copiado los datos a partir del Excel de referencia.`,
               false
             )
           } else {

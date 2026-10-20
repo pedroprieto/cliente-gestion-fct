@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import ListFCTView from '../views/ListFCTView.vue'
+import ImportarFCTs from '../views/ImportarFCTs.vue'
 import ListVisitView from '../views/ListVisitView.vue'
 import FM34View from '../views/FM34View.vue'
 import LoginView from '../views/LoginView.vue'
@@ -27,6 +28,15 @@ const router = createRouter({
         prompt: 'Lista de FCTs'
       },
       component: ListFCTView,
+      props: true
+    },
+    {
+      path: '/api/users/fcts/import/:curso/:periodo/fcts',
+      name: 'importar',
+      meta: {
+        prompt: 'ImportarFCTs'
+      },
+      component: ImportarFCTs,
       props: true
     },
     {
