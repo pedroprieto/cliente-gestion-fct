@@ -18,7 +18,7 @@
           <span class="icon">
             <svg-icon class="mdi" type="mdi" :path="mdiDownload"></svg-icon>
           </span>
-          <span> Importar FCTs </span>
+          <span> Importar FEs </span>
         </button>
       </div>
       <div class="level-item">

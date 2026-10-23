@@ -19,7 +19,8 @@ const rutas = router
       route.name != 'subirComprobante' &&
       route.name != 'visitas' &&
       route.name != 'etiquetas' &&
-      route.name != 'root'
+      route.name != 'root' &&
+      route.name != 'importar'
   )
 const FCT = gestionFCTStore()
 const state = reactive({ navbar_activa: false })
@@ -29,8 +30,7 @@ function toggleNavbar() {
 }
 
 function logOut() {
-  FCT.deleteCredentials()
-  router.replace({ name: 'login' })
+  FCT.cognitoLogout()
 }
 </script>
 

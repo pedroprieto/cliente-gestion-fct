@@ -4,6 +4,7 @@ import ImportarFCTs from '../views/ImportarFCTs.vue'
 import ListVisitView from '../views/ListVisitView.vue'
 import FM34View from '../views/FM34View.vue'
 import LoginView from '../views/LoginView.vue'
+import CallbackView from '../views/CallbackView.vue'
 import EtiquetasView from '../views/EtiquetasView.vue'
 import FormularioVisita from '../views/FormularioVisita.vue'
 import FormularioComprobante from '../views/FormularioComprobante.vue'
@@ -25,7 +26,7 @@ const router = createRouter({
       path: '/api/users/fcts/items/:curso/:periodo/fcts',
       name: 'fcts',
       meta: {
-        prompt: 'Lista de FCTs'
+        prompt: 'Lista de FEs'
       },
       component: ListFCTView,
       props: true
@@ -34,7 +35,7 @@ const router = createRouter({
       path: '/api/users/fcts/import/:curso/:periodo/fcts',
       name: 'importar',
       meta: {
-        prompt: 'ImportarFCTs'
+        prompt: 'Importar FEs'
       },
       component: ImportarFCTs,
       props: true
@@ -101,6 +102,11 @@ const router = createRouter({
       },
       component: LoginView,
       props: (route) => ({})
+    },
+    {
+      path: '/callback',
+      name: 'callback',
+      component: CallbackView
     }
   ]
 })

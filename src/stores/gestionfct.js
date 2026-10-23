@@ -19,7 +19,6 @@ export const gestionFCTStore = defineStore('gestionfct', {
       error: false,
       mostrarMensaje: false,
       usuario: '',
-      password: '',
       curso: '',
       periodo: '',
       fm34s: [],
@@ -93,20 +92,72 @@ export const gestionFCTStore = defineStore('gestionfct', {
         fct.selected = true
       })
     },
+    // ── Cognito auth ────────────────────────────────────────────────────────────
+
+    redirectToCognito() {
+      const domain = import.meta.env.VITE_COGNITO_DOMAIN
+      const clientId = import.meta.env.VITE_COGNITO_CLIENT_ID
+      const redirectUri = encodeURIComponent(import.meta.env.VITE_COGNITO_REDIRECT_URI)
+      window.location.href =
+        `https://${domain}/login?client_id=${clientId}` +
+        `&response_type=code&scope=com.gestionfct%2Fgestionfct+openid+email+profile&redirect_uri=${redirectUri}&lang=es`
+    },
+    async handleCallback(code) {
+      const domain = import.meta.env.VITE_COGNITO_DOMAIN
+      const clientId = import.meta.env.VITE_COGNITO_CLIENT_ID
+      const redirectUri = import.meta.env.VITE_COGNITO_REDIRECT_URI
+
+      const response = await fetch(`https://${domain}/oauth2/token`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          grant_type: 'authorization_code',
+          client_id: clientId,
+          redirect_uri: redirectUri,
+          code
+        })
+      })
+
+      if (!response.ok) {
+        throw new Error('Error al intercambiar el código de autorización')
+      }
+
+      const tokens = await response.json()
+      sessionStorage.setItem('access_token', tokens.access_token)
+      sessionStorage.setItem('id_token', tokens.id_token)
+
+      // Decode the id_token (JWT) to extract the username (NIF)
+      const payload = JSON.parse(atob(tokens.id_token.split('.')[1]))
+      this.usuario = payload['cognito:username'] || payload.email || payload.sub
+      sessionStorage.setItem('user', this.usuario)
+    },
+
+    cognitoLogout() {
+      sessionStorage.removeItem('access_token')
+      sessionStorage.removeItem('id_token')
+      sessionStorage.removeItem('user')
+      this.usuario = ''
+
+      const domain = import.meta.env.VITE_COGNITO_DOMAIN
+      const clientId = import.meta.env.VITE_COGNITO_CLIENT_ID
+      const logoutUri = encodeURIComponent(import.meta.env.VITE_COGNITO_LOGOUT_URI)
+      window.location.href = `https://${domain}/logout?client_id=${clientId}&logout_uri=${logoutUri}`
+    },
+
+    // ── HTTP ─────────────────────────────────────────────────────────────────
+
     request(url, method, body) {
       let fullUrl = `${import.meta.env.VITE_API_URL}${url}`
+      const token = sessionStorage.getItem('access_token')
 
       let headers = new Headers()
-      headers.set('Authorization', 'Basic ' + btoa(this.usuario + ':' + this.password))
+      headers.set('Authorization', 'Bearer ' + token)
       headers.set('Content-Type', 'application/json')
-      let params = {
-        method: method,
-        mode: 'cors',
-        headers
-      }
+      let params = { method, mode: 'cors', headers }
       if (body) params.body = JSON.stringify(body)
       return fetch(fullUrl, params)
     },
+
     resetMensaje() {
       this.mostrarMensaje = false
       this.error = false
@@ -119,16 +170,15 @@ export const gestionFCTStore = defineStore('gestionfct', {
     },
     loadCredentials: function () {
       this.usuario = sessionStorage.getItem('user')
-      this.password = sessionStorage.getItem('password')
     },
     deleteCredentials: function () {
+      sessionStorage.removeItem('access_token')
+      sessionStorage.removeItem('id_token')
       sessionStorage.removeItem('user')
-      sessionStorage.removeItem('password')
       this.usuario = ''
-      this.password = ''
     },
     checkLogin: function () {
-      return this.usuario
+      return this.usuario && sessionStorage.getItem('access_token')
     },
     importarFCTs: function (listFEs) {
       let url = `/api/users/${this.usuario}/import_fcts`
@@ -191,7 +241,7 @@ export const gestionFCTStore = defineStore('gestionfct', {
         })
     },
     loadFCTs: function () {
-      console.log('loading FCTs')
+      console.log('loading FEs')
       this.loading = true
       this.loginError = false
       let url = `/api/users/${this.usuario}/fcts?curso=${this.curso}&periodo=${this.periodo}`

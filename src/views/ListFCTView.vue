@@ -2,7 +2,7 @@
   <div>
   <NavBar/>
   <div class="container">
-    <TituloPagina titulo="Listado de FCTs"/>
+    <TituloPagina titulo="Listado de FEs"/>
 
     <FCTList />
   </div>

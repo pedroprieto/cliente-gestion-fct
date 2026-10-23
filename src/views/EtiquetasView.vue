@@ -11,7 +11,7 @@
           <svg-icon class="mdi" type="mdi" :path="mdiArrowLeft"></svg-icon>
         </span>
         <span>
-          Volver al listado de FCTs
+          Volver al listado de FEs
         </span>
       </button>
     </div>

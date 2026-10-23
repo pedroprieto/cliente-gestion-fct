@@ -11,11 +11,11 @@
 
   router.beforeEach(async (to, from) => {
       FCT.loadCredentials();
-      if (!FCT.checkLogin() && to.name !== 'login') {
+      if (!FCT.checkLogin() && to.name !== 'login' && to.name !== 'callback') {
           return { name: 'login' }
       }
 
-      if ((to.name !== 'login') && ((!from.params.periodo) || (!from.params.curso) || ((from.params.curso != to.params.curso) || (from.params.periodo != to.params.periodo)))) {
+      if ((to.name !== 'login') && (to.name !== 'callback') && ((!from.params.periodo) || (!from.params.curso) || ((from.params.curso != to.params.curso) || (from.params.periodo != to.params.periodo)))) {
           FCT.curso = to.params.curso;
           FCT.periodo = to.params.periodo;
           await FCT.loadFCTs();
