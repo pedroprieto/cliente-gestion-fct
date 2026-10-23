@@ -1,5 +1,5 @@
 <template>
-  <section class="hero is-primary is-fullheight">
+  <section class="hero is-fullheight">
     <div class="hero-body">
       <div class="container">
         <div class="columns is-centered">
@@ -11,13 +11,19 @@
               <button
                 type="button"
                 @click="FCT.redirectToCognito()"
-                class="button is-link is-fullwidth is-large"
+                class="button is-primary is-fullwidth is-large"
               >
                 Iniciar sesión o registrarse
               </button>
             </div>
           </div>
         </div>
+
+        <article id="mensaje" class="notification is-info is-light">
+          Bienvenido a la nueva versión. La <b>primera vez</b> que accedas, debes registrarte y
+          <b>crear una cuenta</b>. Es muy importante que elijas como <b>nombre de usuario</b> tu
+          <b>NIF</b>. De esta manera podrás consultar las FCTs/FEs realizadas en años anteriores.
+        </article>
       </div>
     </div>
   </section>
